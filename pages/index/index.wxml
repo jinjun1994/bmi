@@ -1,6 +1,6 @@
 <view class="container">
     <view class="header">
-        <text class="title">BMI 综合分析</text>
+        <text class="title">BMI 标准体重计算器</text>
     </view>
     <view class="current-profile" wx:if="{{currentProfileName}}">
         <text class="profile-name">当前用户: {{currentProfileName}}</text>
@@ -30,7 +30,7 @@
             <text>体重 (kg):</text>
             <input bindfocus="checkProfileExists" bindinput="onWeightInput" placeholder="请输入体重" type="digit" value="{{weight}}"></input>
         </view>
-        <button bindtap="calculateBMI" class="calculate-btn ripple-button" loading="{{isCalculating}}">{{isCalculating?'计算中...':'综合分析'}}</button>
+        <button bindtap="calculateBMI" class="calculate-btn ripple-button" loading="{{isCalculating}}">{{isCalculating?'计算中...':'开始分析'}}</button>
     </view>
     <view class="result-container slide-up" style="animation-delay:0.15s" wx:if="{{bmi}}">
         <view class="bmi-header fade-in" style="animation-delay:0.3s">

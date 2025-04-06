@@ -21,7 +21,7 @@
         "selectedIconPath": "path/to/existing/icon1_selected.png"
       },
       {
-        "text": "历史记录",
+        "text": "体重趋势",
         "pagePath": "pages/history/history",
         "iconPath": "path/to/existing/icon2.png",
         "selectedIconPath": "path/to/existing/icon2_selected.png"

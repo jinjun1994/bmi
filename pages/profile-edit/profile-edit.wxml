@@ -32,7 +32,7 @@
     <view class="button-group">
         <button bindtap="saveProfile" class="save-btn">保存</button>
         <button bindtap="cancel" class="cancel-btn">取消</button>
-        <button bindtap="viewHistory" class="history-btn" wx:if="{{isEdit}}">查看历史记录</button>
+        <button bindtap="viewHistory" class="history-btn" wx:if="{{isEdit}}">查看体重趋势</button>
         <button bindtap="deleteProfile" class="delete-btn" wx:if="{{isEdit}}">删除用户</button>
     </view>
 </view>

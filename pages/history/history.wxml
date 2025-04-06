@@ -1,6 +1,6 @@
 <view class="container">
     <view class="header">
-        <text class="title">{{isViewingOtherProfile?viewingProfileName+'的历史记录':'历史记录'}}</text>
+        <text class="title">{{isViewingOtherProfile?viewingProfileName+'的体重趋势':'体重趋势'}}</text>
     </view>
     <view class="no-data" wx:if="{{records.length===0}}">
         <text>暂无记录</text>

@@ -13,7 +13,7 @@
             </view>
             <view class="profile-actions">
                 <view catchtap="editProfile" class="edit-btn" data-id="{{item.id}}">编辑</view>
-                <view catchtap="viewHistory" class="history-btn" data-id="{{item.id}}">历史</view>
+                <view catchtap="viewHistory" class="history-btn" data-id="{{item.id}}">趋势</view>
             </view>
         </view>
     </view>

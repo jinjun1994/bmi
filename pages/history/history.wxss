@@ -78,7 +78,7 @@
 }
 
 .record-date {
-    border-left: 3px solid #4776e6;
+    border-left: 3px solid var(--primary-color);
     color: var(--text-color);
     font-size: 18px;
     font-weight: 700;
@@ -116,21 +116,21 @@
 
 .value.normal {
     -webkit-text-fill-color: transparent;
-    background: linear-gradient(135deg,#43e97b,#38f9d7);
+    background: var(--primary-gradient);
     -webkit-background-clip: text;
     font-weight: 600
 }
 
 .value.underweight {
-    color: #5db9ff
+    color: var(--info-color)
 }
 
 .value.overweight {
-    color: #fc0
+    color: var(--warning-color)
 }
 
 .value.obese {
-    color: #ff3b30
+    color: var(--danger-color)
 }
 
 .clear-btn {
@@ -262,8 +262,8 @@
 }
 
 .section-header {
-    border-left: 3px solid #4776e6;
-    color: #4776e6;
+    border-left: 3px solid var(--primary-color);
+    color: var(--primary-color);
     font-size: 16px;
     font-weight: 700;
     padding-left: 10px
@@ -284,7 +284,7 @@
 }
 
 .table-row.header {
-    background: linear-gradient(135deg,#4776e6,#8e54e9);
+    background: var(--primary-gradient);
     color: #fff;
     font-weight: 700
 }

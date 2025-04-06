@@ -174,15 +174,15 @@
 }
 
 .ratio-fill.protein {
-    background-color: #4caf50
+    background-color: var(--success-color)
 }
 
 .ratio-fill.carbs {
-    background-color: #ff9800
+    background-color: var(--warning-color)
 }
 
 .ratio-fill.fat {
-    background-color: #f44336
+    background-color: var(--danger-color)
 }
 
 .ratio-label {
@@ -258,9 +258,9 @@
 }
 
 .blue-button {
-    background: linear-gradient(135deg,#4776e6,#8e54e9);
+    background: var(--primary-gradient);
     border-radius: 30px;
-    box-shadow: 0 4px 10px rgba(71,118,230,.3);
+    box-shadow: 0 4px 10px rgba(76,175,80,.3);
     color: #fff;
     font-size: 15px;
     font-weight: 500;
@@ -269,7 +269,7 @@
 }
 
 .blue-button:active {
-    box-shadow: 0 2px 6px rgba(71,118,230,.2);
+    box-shadow: 0 2px 6px rgba(76,175,80,.2);
     -webkit-transform: scale(.96);
     transform: scale(.96)
 }

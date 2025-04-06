@@ -103,7 +103,20 @@
 }
 
 .history-btn {
-    background-color: #4096ff;
+    background: var(--info-color);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(33,150,243,.25);
     color: #fff;
-    margin-bottom: 15px
+    font-size: 14px;
+    margin-bottom: 15px;
+    padding: 8px 0;
+    transition: all .3s ease;
+    width: 100%
+}
+
+.history-btn:active {
+    box-shadow: 0 1px 4px rgba(33,150,243,.15);
+    -webkit-transform: scale(.95);
+    transform: scale(.95)
 }

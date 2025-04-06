@@ -1,5 +1,5 @@
 .container {
-    background-color: #f8f8f8;
+    background-color: var(--light-bg-color);
     min-height: 100vh;
     padding: 20px
 }
@@ -10,15 +10,17 @@
 }
 
 .title {
-    color: #07c160;
+    -webkit-text-fill-color: transparent;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
     font-size: 24px;
     font-weight: 700
 }
 
 .bmi-info {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
     margin-bottom: 20px;
     padding: 20px
 }
@@ -69,19 +71,19 @@
 }
 
 .category.underweight {
-    color: #5db9ff
+    color: var(--info-color)
 }
 
 .category.normal {
-    color: #4cd964
+    color: var(--success-color)
 }
 
 .category.overweight {
-    color: #fc0
+    color: var(--warning-color)
 }
 
 .category.obese {
-    color: #ff3b30
+    color: var(--danger-color)
 }
 
 .category.severely-obese {
@@ -129,19 +131,19 @@
 }
 
 .weight-cell.underweight {
-    background-color: #e6f5ff
+    background-color: rgba(33, 150, 243, 0.1)
 }
 
 .weight-cell.normal {
-    background-color: #e6ffe6
+    background-color: rgba(76, 175, 80, 0.1)
 }
 
 .weight-cell.overweight {
-    background-color: #fff9e6
+    background-color: rgba(255, 193, 7, 0.1)
 }
 
 .weight-cell.obese {
-    background-color: #ffe6e6
+    background-color: rgba(255, 87, 34, 0.1)
 }
 
 .age-bmi-section {

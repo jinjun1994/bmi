@@ -92,7 +92,7 @@ Page({
         g.push(d), 1 === g.length && wx.setStorageSync("current_profile_id", d.id)
       }
       wx.setStorageSync("user_profiles", g), wx.showToast({
-        title: s ? "档案已更新" : "档案已创建",
+        title: s ? "用户已更新" : "用户已创建",
         icon: "success"
       }), wx.setStorageSync("returning_from_profile", !0), wx.navigateBack()
     } else wx.showToast({
@@ -107,7 +107,7 @@ Page({
     var e = this.data.id;
     wx.showModal({
       title: "确认删除",
-      content: "删除档案将会同时删除所有相关记录，确定要删除吗？",
+      content: "删除用户将会同时删除所有相关记录，确定要删除吗？",
       success: function(t) {
         if (t.confirm) {
           var i = wx.getStorageSync("user_profiles") || [];
@@ -116,7 +116,7 @@ Page({
           })), wx.setStorageSync("user_profiles", i), wx.getStorageSync("current_profile_id") === e && (i.length > 0 ? wx.setStorageSync("current_profile_id", i[0].id) : wx.removeStorageSync("current_profile_id"));
           var a = wx.getStorageSync("all_bmi_records") || {};
           delete a[e], wx.setStorageSync("all_bmi_records", a), wx.showToast({
-            title: "档案已删除",
+            title: "用户已删除",
             icon: "success"
           }), wx.navigateBack()
         }

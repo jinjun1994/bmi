@@ -27,7 +27,7 @@
         "selectedIconPath": "path/to/existing/icon2_selected.png"
       },
       {
-        "text": "档案管理",
+        "text": "用户管理",
         "pagePath": "pages/profiles/profiles",
         "iconPath": "path/to/existing/icon3.png",
         "selectedIconPath": "path/to/existing/icon3_selected.png"

@@ -1,6 +1,6 @@
 <view class="container">
     <view class="header">
-        <text class="title">{{isEdit?'编辑档案':'新建档案'}}</text>
+        <text class="title">{{isEdit?'编辑用户':'新建用户'}}</text>
     </view>
     <view class="form-container">
         <view class="input-group">
@@ -33,6 +33,6 @@
         <button bindtap="saveProfile" class="save-btn">保存</button>
         <button bindtap="cancel" class="cancel-btn">取消</button>
         <button bindtap="viewHistory" class="history-btn" wx:if="{{isEdit}}">查看历史记录</button>
-        <button bindtap="deleteProfile" class="delete-btn" wx:if="{{isEdit}}">删除档案</button>
+        <button bindtap="deleteProfile" class="delete-btn" wx:if="{{isEdit}}">删除用户</button>
     </view>
 </view>

@@ -22,7 +22,7 @@ Page({
     wx.setStorageSync("current_profile_id", t), this.setData({
       currentProfileId: t
     }), wx.showToast({
-      title: "已切换档案",
+      title: "已切换用户",
       icon: "success"
     }), wx.switchTab({
       url: "/pages/index/index"
@@ -57,8 +57,8 @@ Page({
       })),
       o = r === this.data.currentProfileId;
     wx.showModal({
-      title: "删除档案",
-      content: '确定要删除"'.concat(i.name, '"的档案吗？').concat(o ? "(这是当前正在使用的档案)" : ""),
+      title: "删除用户",
+      content: '确定要删除"'.concat(i.name, '"的用户吗？').concat(o ? "(这是当前正在使用的用户)" : ""),
       confirmText: "删除",
       confirmColor: "#ff4d4f",
       success: function(e) {
@@ -77,7 +77,7 @@ Page({
     }))), this.setData({
       profiles: t
     }), wx.showToast({
-      title: "档案已删除",
+      title: "用户已删除",
       icon: "success"
     })
   }

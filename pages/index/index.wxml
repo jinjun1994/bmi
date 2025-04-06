@@ -3,20 +3,20 @@
         <text class="title">BMI 综合分析</text>
     </view>
     <view class="current-profile" wx:if="{{currentProfileName}}">
-        <text class="profile-name">当前档案: {{currentProfileName}}</text>
+        <text class="profile-name">当前用户: {{currentProfileName}}</text>
         <text bindtap="navigateToProfiles" class="switch-profile">切换</text>
     </view>
     <view class="form-container slide-up">
         <view class="gender-selector">
             <text>性别:</text>
-            <view class="ios-segmented-control">
-                <view bindtap="setGenderFemale" class="segment {{gender==='female'?'active':''}}">
-                    <text>女性</text>
-                </view>
-                <view bindtap="setGenderMale" class="segment {{gender==='male'?'active':''}}">
-                    <text>男性</text>
-                </view>
-            </view>
+            <radio-group bindchange="onGenderChange">
+                <label>
+                    <radio checked="{{gender==='female'}}" value="female"></radio>女性
+                </label>
+                <label>
+                    <radio checked="{{gender==='male'}}" value="male"></radio>男性
+                </label>
+            </radio-group>
         </view>
         <view class="input-group">
             <text>年龄 (岁):</text>

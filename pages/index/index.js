@@ -143,13 +143,13 @@ Page(e(e({
         var a = this.data.currentProfileName;
         wx.showModal({
           title: "保存记录",
-          content: '确认将此记录保存到"'.concat(a, '"的档案中吗？'),
+          content: '确认将此记录保存到"'.concat(a, '"的用户中吗？'),
           confirmText: "确认保存",
           cancelText: "取消",
           success: function(a) {
             a.confirm ? e.doSaveRecord(i) : a.cancel && wx.showModal({
               title: "提示",
-              content: '您可以在"档案管理"中切换到其他档案',
+              content: '您可以在"用户管理"中切换到其他用户',
               confirmText: "去切换",
               cancelText: "知道了",
               success: function(e) {
@@ -161,7 +161,7 @@ Page(e(e({
           }
         })
       } else wx.showToast({
-        title: "请先创建档案",
+        title: "请先创建用户",
         icon: "none"
       })
     }
@@ -330,7 +330,7 @@ Page(e(e({
         })
       }
     } else wx.showToast({
-      title: "请先创建档案",
+      title: "请先创建用户",
       icon: "none"
     })
   },
@@ -3074,7 +3074,7 @@ Page(e(e({
       i = wx.getStorageSync("current_profile_id");
     return 0 === e.length ? (wx.showModal({
       title: "提示",
-      content: "您还没有创建任何档案，是否现在创建？",
+      content: "您还没有创建任何用户，是否现在创建？",
       confirmText: "去创建",
       success: function(e) {
         e.confirm && wx.navigateTo({
@@ -3083,8 +3083,8 @@ Page(e(e({
       }
     }), !1) : !!i || (wx.showModal({
       title: "提示",
-      content: "请先选择一个档案",
-      confirmText: "选择档案",
+      content: "请先选择一个用户",
+      confirmText: "选择用户",
       success: function(e) {
         e.confirm && wx.navigateTo({
           url: "/pages/profiles/profiles"

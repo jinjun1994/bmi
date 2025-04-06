@@ -30,18 +30,15 @@
 }
 
 .gender-selector {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    margin-bottom: 20px
+    margin-bottom: 20px;
 }
 
-.gender-selector wx-text {
+.gender-selector text {
     color: var(--text-color);
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    display: block;
 }
 
 .ios-segmented-control {

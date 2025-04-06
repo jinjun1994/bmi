@@ -1,6 +1,6 @@
 <view class="container">
     <view class="header">
-        <text class="title">档案管理</text>
+        <text class="title">用户管理</text>
     </view>
     <view class="profiles-list">
         <view bindlongpress="showDeleteConfirm" bindtap="selectProfile" class="{{item.id===currentProfileId?'profile-item active':'profile-item'}}" data-id="{{item.id}}" style="--index:{{index}}" wx:for="{{profiles}}" wx:key="id">
@@ -17,5 +17,5 @@
             </view>
         </view>
     </view>
-    <button bindtap="addProfile" class="add-profile-btn">添加新档案</button>
+    <button bindtap="addProfile" class="add-profile-btn">添加新用户</button>
 </view>

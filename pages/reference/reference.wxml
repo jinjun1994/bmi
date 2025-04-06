@@ -1,0 +1,91 @@
+<view class="container">
+    <view class="header">
+        <text class="title">体重参考表</text>
+    </view>
+    <view class="bmi-info">
+        <view class="bmi-formula">
+            <text>BMI = 体重(kg) ÷ 身高²(m)</text>
+        </view>
+        <view class="bmi-categories">
+            <text class="category-title">BMI 分类标准</text>
+            <view class="category-table">
+                <view class="table-header">
+                    <text class="cell">级别</text>
+                    <text class="cell">女性</text>
+                    <text class="cell">男性</text>
+                </view>
+                <view class="table-row">
+                    <text class="cell category underweight">偏瘦</text>
+                    <text class="cell">&lt;19</text>
+                    <text class="cell">&lt;20</text>
+                </view>
+                <view class="table-row">
+                    <text class="cell category normal">正常</text>
+                    <text class="cell">19-24</text>
+                    <text class="cell">20-25</text>
+                </view>
+                <view class="table-row">
+                    <text class="cell category overweight">偏胖</text>
+                    <text class="cell">24-29</text>
+                    <text class="cell">25-30</text>
+                </view>
+                <view class="table-row">
+                    <text class="cell category obese">肥胖</text>
+                    <text class="cell">29-34</text>
+                    <text class="cell">30-35</text>
+                </view>
+                <view class="table-row">
+                    <text class="cell category severely-obese">非常肥胖</text>
+                    <text class="cell">&gt;34</text>
+                    <text class="cell">&gt;35</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="reference-table">
+        <text class="reference-title">标准体重参考表 (kg)</text>
+        <scroll-view class="weight-table-scroll" scrollX="true">
+            <view class="weight-table">
+                <view class="table-header">
+                    <text class="height-cell">身高(cm)</text>
+                    <text class="weight-cell" wx:for="{{[40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120]}}" wx:key="*this">{{item}}</text>
+                </view>
+                <view class="table-row" wx:for="{{heightWeightData}}" wx:key="height">
+                    <text class="height-cell">{{item.height}}</text>
+                    <text class="weight-cell {{weight.class}}" wx:for="{{item.weights}}" wx:for-index="widx" wx:for-item="weight" wx:key="widx">{{weight.value}}</text>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+    <view class="age-bmi-section">
+        <text class="section-title">不同年龄BMI理想范围</text>
+        <view class="age-table">
+            <view class="table-header">
+                <text class="cell">年龄段</text>
+                <text class="cell">女性理想BMI</text>
+                <text class="cell">男性理想BMI</text>
+            </view>
+            <view class="table-row">
+                <text class="cell">18岁以下</text>
+                <text class="cell">18-23</text>
+                <text class="cell">19-24</text>
+            </view>
+            <view class="table-row">
+                <text class="cell">18-39岁</text>
+                <text class="cell">19-24</text>
+                <text class="cell">20-25</text>
+            </view>
+            <view class="table-row">
+                <text class="cell">40-59岁</text>
+                <text class="cell">20-25</text>
+                <text class="cell">21-26</text>
+            </view>
+            <view class="table-row">
+                <text class="cell">60岁以上</text>
+                <text class="cell">21-26</text>
+                <text class="cell">22-27</text>
+            </view>
+        </view>
+        <text class="note">注：随着年龄增长，理想BMI范围略有增加，这是由于老年人需要一定体重储备以应对疾病风险</text>
+    </view>
+</view>

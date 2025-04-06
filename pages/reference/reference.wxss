@@ -1,0 +1,172 @@
+.container {
+    background-color: #f8f8f8;
+    min-height: 100vh;
+    padding: 20px
+}
+
+.header {
+    margin-bottom: 30px;
+    text-align: center
+}
+
+.title {
+    color: #07c160;
+    font-size: 24px;
+    font-weight: 700
+}
+
+.bmi-info {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    margin-bottom: 20px;
+    padding: 20px
+}
+
+.bmi-formula {
+    border-bottom: 1px solid #eee;
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    text-align: center
+}
+
+.bmi-categories {
+    margin-top: 15px
+}
+
+.category-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px
+}
+
+.category-table {
+    border-collapse: collapse;
+    width: 100%
+}
+
+.table-header {
+    background-color: #f5f5f5;
+    font-weight: 700
+}
+
+.table-header,.table-row {
+    display: -webkit-flex;
+    display: flex
+}
+
+.table-row {
+    border-bottom: 1px solid #eee
+}
+
+.cell {
+    -webkit-flex: 1;
+    flex: 1;
+    padding: 10px;
+    text-align: center
+}
+
+.category.underweight {
+    color: #5db9ff
+}
+
+.category.normal {
+    color: #4cd964
+}
+
+.category.overweight {
+    color: #fc0
+}
+
+.category.obese {
+    color: #ff3b30
+}
+
+.category.severely-obese {
+    color: #ff2d55
+}
+
+.reference-table {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    margin-bottom: 20px;
+    padding: 20px
+}
+
+.reference-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px
+}
+
+.weight-table-scroll {
+    white-space: nowrap;
+    width: 100%
+}
+
+.weight-table {
+    border-collapse: collapse;
+    min-width: 100%
+}
+
+.height-cell {
+    background-color: #f5f5f5;
+    font-weight: 700;
+    min-width: 70px
+}
+
+.height-cell,.weight-cell {
+    padding: 8px;
+    text-align: center
+}
+
+.weight-cell {
+    min-width: 50px
+}
+
+.weight-cell.underweight {
+    background-color: #e6f5ff
+}
+
+.weight-cell.normal {
+    background-color: #e6ffe6
+}
+
+.weight-cell.overweight {
+    background-color: #fff9e6
+}
+
+.weight-cell.obese {
+    background-color: #ffe6e6
+}
+
+.age-bmi-section {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    margin-bottom: 20px;
+    padding: 20px
+}
+
+.section-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px
+}
+
+.age-table {
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    width: 100%
+}
+
+.note {
+    color: #666;
+    font-size: 12px;
+    font-style: italic
+}

@@ -1,0 +1,38 @@
+<view class="container">
+    <view class="header">
+        <text class="title">{{isEdit?'编辑档案':'新建档案'}}</text>
+    </view>
+    <view class="form-container">
+        <view class="input-group">
+            <text>姓名:</text>
+            <input bindinput="onNameInput" placeholder="请输入姓名" type="text" value="{{name}}"></input>
+        </view>
+        <view class="gender-selector">
+            <text>性别:</text>
+            <radio-group bindchange="onGenderChange">
+                <label class="radio">
+                    <radio checked="{{gender==='female'}}" value="female"></radio>女性</label>
+                <label class="radio">
+                    <radio checked="{{gender==='male'}}" value="male"></radio>男性</label>
+            </radio-group>
+        </view>
+        <view class="input-group">
+            <text>年龄:</text>
+            <input bindinput="onAgeInput" placeholder="请输入年龄" type="number" value="{{age}}"></input>
+        </view>
+        <view class="input-group">
+            <text>身高 (cm):</text>
+            <input bindinput="onHeightInput" placeholder="请输入身高" type="digit" value="{{height}}"></input>
+        </view>
+        <view class="input-group">
+            <text>当前体重 (kg):</text>
+            <input bindinput="onWeightInput" placeholder="请输入体重" type="digit" value="{{weight}}"></input>
+        </view>
+    </view>
+    <view class="button-group">
+        <button bindtap="saveProfile" class="save-btn">保存</button>
+        <button bindtap="cancel" class="cancel-btn">取消</button>
+        <button bindtap="viewHistory" class="history-btn" wx:if="{{isEdit}}">查看历史记录</button>
+        <button bindtap="deleteProfile" class="delete-btn" wx:if="{{isEdit}}">删除档案</button>
+    </view>
+</view>

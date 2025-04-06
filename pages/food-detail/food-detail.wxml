@@ -1,0 +1,158 @@
+<view class="container">
+    <view class="header">
+        <text class="title">食品营养详情</text>
+    </view>
+    <view class="food-detail" wx:if="{{food}}">
+        <view class="food-header">
+            <text class="food-name">{{food.name}}</text>
+            <text class="food-unit">(每100{{food.unit}})</text>
+        </view>
+        <view class="nutrition-card">
+            <view class="basic-nutrition">
+                <view class="nutrition-item">
+                    <text class="label">热量</text>
+                    <text class="value">{{food.calories}} 千卡</text>
+                </view>
+                <view class="macro-ratio">
+                    <view class="section-title">营养素比例</view>
+                    <view class="ratio-bars">
+                        <view class="ratio-bar">
+                            <view class="ratio-fill protein" style="width:{{macroRatio.protein}}%"></view>
+                            <text class="ratio-label">蛋白质 {{macroRatio.protein}}%</text>
+                        </view>
+                        <view class="ratio-bar">
+                            <view class="ratio-fill carbs" style="width:{{macroRatio.carbs}}%"></view>
+                            <text class="ratio-label">碳水 {{macroRatio.carbs}}%</text>
+                        </view>
+                        <view class="ratio-bar">
+                            <view class="ratio-fill fat" style="width:{{macroRatio.fat}}%"></view>
+                            <text class="ratio-label">脂肪 {{macroRatio.fat}}%</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="nutrition-grid">
+                    <view class="nutrition-item">
+                        <text class="label">蛋白质</text>
+                        <text class="value">{{food.protein}}g</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">脂肪</text>
+                        <text class="value">{{food.fat}}g</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">碳水</text>
+                        <text class="value">{{food.carbs}}g</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">纤维</text>
+                        <text class="value">{{food.fiber}}g</text>
+                    </view>
+                </view>
+            </view>
+            <view class="detailed-nutrition" wx:if="{{showDetailedNutrition}}">
+                <view class="section-title">脂肪详细信息</view>
+                <view class="nutrition-grid">
+                    <view class="nutrition-item">
+                        <text class="label">饱和脂肪</text>
+                        <text class="value">{{food.saturated_fat||'0'}}g</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">不饱和脂肪</text>
+                        <text class="value">{{food.unsaturated_fat||'0'}}g</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">胆固醇</text>
+                        <text class="value">{{food.cholesterol||'0'}}mg</text>
+                    </view>
+                </view>
+                <view class="section-title">矿物质</view>
+                <view class="nutrition-grid">
+                    <view class="nutrition-item">
+                        <text class="label">钠</text>
+                        <text class="value">{{food.sodium||'0'}}mg</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">钾</text>
+                        <text class="value">{{food.potassium||'0'}}mg</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">钙</text>
+                        <text class="value">{{food.calcium||'0'}}mg</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">铁</text>
+                        <text class="value">{{food.iron||'0'}}mg</text>
+                    </view>
+                </view>
+                <view class="section-title">维生素</view>
+                <view class="nutrition-grid">
+                    <view class="nutrition-item">
+                        <text class="label">维生素A</text>
+                        <text class="value">{{food.vitamin_a||'0'}}IU</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">维生素C</text>
+                        <text class="value">{{food.vitamin_c||'0'}}mg</text>
+                    </view>
+                </view>
+                <view class="section-title">血糖影响</view>
+                <view class="nutrition-grid">
+                    <view class="nutrition-item">
+                        <text class="label">糖分</text>
+                        <text class="value">{{food.sugar||'0'}}g</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">升糖指数</text>
+                        <text class="value">{{food.glycemic_index||'-'}}</text>
+                    </view>
+                    <view class="nutrition-item">
+                        <text class="label">升糖负荷</text>
+                        <text class="value">{{food.glycemic_load||'-'}}</text>
+                    </view>
+                </view>
+                <view class="daily-values">
+                    <view class="section-title">每日营养参考值占比(%)</view>
+                    <view class="nutrition-progress">
+                        <view class="progress-item">
+                            <text class="label">蛋白质</text>
+                            <progress activeColor="{{nutritionPercents.proteinPercent>100?'#ff4d4f':'#52c41a'}}" percent="{{nutritionPercents.proteinPercent}}" strokeWidth="3"></progress>
+                            <text class="percent">{{nutritionPercents.protein}}%</text>
+                        </view>
+                        <view class="progress-item">
+                            <text class="label">钙</text>
+                            <progress activeColor="{{nutritionPercents.calciumPercent>100?'#ff4d4f':'#52c41a'}}" percent="{{nutritionPercents.calciumPercent}}" strokeWidth="3"></progress>
+                            <text class="percent">{{nutritionPercents.calcium}}%</text>
+                        </view>
+                        <view class="progress-item">
+                            <text class="label">铁</text>
+                            <progress activeColor="{{nutritionPercents.ironPercent>100?'#ff4d4f':'#52c41a'}}" percent="{{nutritionPercents.ironPercent}}" strokeWidth="3"></progress>
+                            <text class="percent">{{nutritionPercents.iron}}%</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="nutrition-info">
+                <text class="section-title">营养成分</text>
+                <view bindtap="toggleDetailedNutrition" class="toggle-nutrition blue-button">
+                    <text>{{showDetailedNutrition?'收起详情':'查看更多营养素'}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="food-description" wx:if="{{food.description}}">
+            <text class="description-title">食品说明</text>
+            <text class="description-content">{{food.description}}</text>
+        </view>
+    </view>
+    <view class="food-pairing" wx:if="{{pairingFoods.length>0}}">
+        <view class="section-title">推荐搭配食品</view>
+        <view class="pairing-list">
+            <view class="pairing-item" wx:for="{{pairingFoods}}" wx:key="id">
+                <text class="pairing-name">{{item.name}}</text>
+                <text class="pairing-reason">{{item.reason}}</text>
+            </view>
+        </view>
+    </view>
+    <view class="no-data" wx:if="{{!food}}">
+        <text>未找到食品信息</text>
+    </view>
+</view>

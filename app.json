@@ -1,0 +1,49 @@
+{
+  "entryPagePath": "pages/index/index",
+  "pages": [
+    "pages/index/index",
+    "pages/history/history",
+    "pages/reference/reference",
+    "pages/profiles/profiles",
+    "pages/profile-edit/profile-edit",
+    "pages/food-detail/food-detail"
+  ],
+  "tabBar": {
+    "color": "#888888",
+    "selectedColor": "#07c160",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "text": "BMI计算",
+        "pagePath": "pages/index/index",
+        "iconPath": "path/to/existing/icon1.png",
+        "selectedIconPath": "path/to/existing/icon1_selected.png"
+      },
+      {
+        "text": "历史记录",
+        "pagePath": "pages/history/history",
+        "iconPath": "path/to/existing/icon2.png",
+        "selectedIconPath": "path/to/existing/icon2_selected.png"
+      },
+      {
+        "text": "档案管理",
+        "pagePath": "pages/profiles/profiles",
+        "iconPath": "path/to/existing/icon3.png",
+        "selectedIconPath": "path/to/existing/icon3_selected.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "renderer": "webview",
+  "componentFramework":
+    "exparser"
+  ,
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4776E6",
+    "navigationBarTitleText": "BMI标准体重计算器助手",
+    "navigationBarTextStyle": "white"
+  },
+  "plugins": {}
+}

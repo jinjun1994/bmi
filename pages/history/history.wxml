@@ -1,0 +1,126 @@
+<view class="container">
+    <view class="header">
+        <text class="title">{{isViewingOtherProfile?viewingProfileName+'的历史记录':'历史记录'}}</text>
+    </view>
+    <view class="no-data" wx:if="{{records.length===0}}">
+        <text>暂无记录</text>
+    </view>
+    <view class="trend-analysis" wx:if="{{showTrendAnalysis}}">
+        <view class="trend-title">趋势分析</view>
+        <view class="trend-item">
+            <text class="trend-text">{{weightTrend}}</text>
+        </view>
+        <view class="trend-item">
+            <text class="trend-text">{{bmiTrend}}</text>
+        </view>
+    </view>
+    <view class="chart-section" wx:if="{{records.length>=2}}">
+        <view class="section-title">体重身高年龄变化趋势</view>
+        <canvas canvasId="weightChart" class="weight-chart"></canvas>
+    </view>
+    <view class="records-list" wx:if="{{records.length>0}}">
+        <view bindlongpress="showDeleteRecordConfirm" class="record-item" data-index="{{index}}" style="--index:{{index}}" wx:for="{{records}}" wx:key="date">
+            <view class="record-date">{{item.formattedDate}}</view>
+            <view class="record-content">
+                <view class="record-row">
+                    <text class="label">性别:</text>
+                    <text class="value">{{item.gender==='female'?'女性':'男性'}}</text>
+                </view>
+                <view class="record-row" wx:if="{{item.age}}">
+                    <text class="label">年龄:</text>
+                    <text class="value">{{item.age}} 岁</text>
+                </view>
+                <view class="record-row">
+                    <text class="label">身高:</text>
+                    <text class="value">{{item.height}} cm</text>
+                </view>
+                <view class="record-row">
+                    <text class="label">体重:</text>
+                    <text class="value">{{item.weight}} kg</text>
+                </view>
+                <view class="record-row">
+                    <text class="label">BMI:</text>
+                    <text class="value">{{item.bmi}}</text>
+                </view>
+                <view class="record-row">
+                    <text class="label">状态:</text>
+                    <text class="value {{item.category==='正常'?'normal':item.category==='偏瘦'?'underweight':item.category==='偏胖'?'overweight':'obese'}}">
+            {{item.category}}
+          </text>
+                </view>
+                <view class="record-row" wx:if="{{item.bmr}}">
+                    <text class="label">基础代谢:</text>
+                    <text class="value">{{item.bmr}} 千卡/天</text>
+                </view>
+                <view class="record-row" wx:if="{{item.fatBurningHrMin}}">
+                    <text class="label">燃脂心率:</text>
+                    <text class="value">{{item.fatBurningHrMin}}-{{item.fatBurningHrMax}} 次/分钟</text>
+                </view>
+                <view class="record-row" wx:if="{{item.recommendedWater}}">
+                    <text class="label">饮水建议:</text>
+                    <text class="value">{{item.recommendedWater}} 毫升/天</text>
+                </view>
+                <view class="record-row" wx:if="{{item.proteinBase}}">
+                    <text class="label">蛋白质建议:</text>
+                    <text class="value">{{item.proteinBase}}-{{item.proteinActive}} 克/天</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="action-buttons" wx:if="{{records.length>0}}">
+        <button bindtap="shareToFriends" class="share-btn">分享好友</button>
+        <button bindtap="clearRecords" class="clear-btn">清除所有记录</button>
+    </view>
+    <view class="weight-reference">
+        <view class="reference-title">标准体重对照表</view>
+        <view class="reference-section">
+            <view class="section-header">男性标准体重 (kg)</view>
+            <view class="reference-table">
+                <view class="table-row header">
+                    <text class="cell">身高(cm)</text>
+                    <text class="cell">标准体重</text>
+                    <text class="cell">体重范围</text>
+                </view>
+                <view class="table-row" wx:for="{{maleWeightStandard}}" wx:key="height">
+                    <text class="cell">{{item.height}}</text>
+                    <text class="cell">{{item.standard}}</text>
+                    <text class="cell">{{item.range}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="reference-section">
+            <view class="section-header">女性标准体重 (kg)</view>
+            <view class="reference-table">
+                <view class="table-row header">
+                    <text class="cell">身高(cm)</text>
+                    <text class="cell">标准体重</text>
+                    <text class="cell">体重范围</text>
+                </view>
+                <view class="table-row" wx:for="{{femaleWeightStandard}}" wx:key="height">
+                    <text class="cell">{{item.height}}</text>
+                    <text class="cell">{{item.standard}}</text>
+                    <text class="cell">{{item.range}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="reference-section">
+        <view class="section-header">不同年龄段理想体重参考</view>
+        <view class="reference-table">
+            <view class="table-row header">
+                <text class="cell">年龄段</text>
+                <text class="cell">女性BMI理想范围</text>
+                <text class="cell">男性BMI理想范围</text>
+            </view>
+            <view class="table-row" wx:for="{{ageWeightStandard}}" wx:key="ageRange">
+                <text class="cell">{{item.ageRange}}</text>
+                <text class="cell">{{item.femaleBMI}}</text>
+                <text class="cell">{{item.maleBMI}}</text>
+            </view>
+        </view>
+        <text class="reference-note">注：理想体重(kg) = BMI理想值 × 身高(m)²</text>
+        <text class="reference-note">随着年龄增长，理想BMI范围略有增加，这是由于老年人需要一定体重储备以应对疾病风险</text>
+    </view>
+    <view style="height:{{bottomPadding}}px;"></view>
+    <canvas canvasId="shareCanvas" style="width:300px;height:420px;position:fixed;top:-9999px;"></canvas>
+</view>

@@ -1,0 +1,21 @@
+<view class="container">
+    <view class="header">
+        <text class="title">档案管理</text>
+    </view>
+    <view class="profiles-list">
+        <view bindlongpress="showDeleteConfirm" bindtap="selectProfile" class="{{item.id===currentProfileId?'profile-item active':'profile-item'}}" data-id="{{item.id}}" style="--index:{{index}}" wx:for="{{profiles}}" wx:key="id">
+            <view class="profile-avatar">
+                <text class="avatar-text">{{item.name.substring(0,1)}}</text>
+            </view>
+            <view class="profile-info">
+                <text class="profile-name">{{item.name}}</text>
+                <text class="profile-desc">{{item.gender==='female'?'女':'男'}} · {{item.age||'--'}}岁</text>
+            </view>
+            <view class="profile-actions">
+                <view catchtap="editProfile" class="edit-btn" data-id="{{item.id}}">编辑</view>
+                <view catchtap="viewHistory" class="history-btn" data-id="{{item.id}}">历史</view>
+            </view>
+        </view>
+    </view>
+    <button bindtap="addProfile" class="add-profile-btn">添加新档案</button>
+</view>

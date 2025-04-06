@@ -1,0 +1,146 @@
+<view class="container">
+    <view class="header">
+        <text class="title">BMI 综合分析</text>
+    </view>
+    <view class="current-profile" wx:if="{{currentProfileName}}">
+        <text class="profile-name">当前档案: {{currentProfileName}}</text>
+        <text bindtap="navigateToProfiles" class="switch-profile">切换</text>
+    </view>
+    <view class="form-container slide-up">
+        <view class="gender-selector">
+            <text>性别:</text>
+            <view class="ios-segmented-control">
+                <view bindtap="setGenderFemale" class="segment {{gender==='female'?'active':''}}">
+                    <text>女性</text>
+                </view>
+                <view bindtap="setGenderMale" class="segment {{gender==='male'?'active':''}}">
+                    <text>男性</text>
+                </view>
+            </view>
+        </view>
+        <view class="input-group">
+            <text>年龄 (岁):</text>
+            <input bindfocus="checkProfileExists" bindinput="onAgeInput" placeholder="请输入年龄" type="number" value="{{age}}"></input>
+        </view>
+        <view class="input-group">
+            <text>身高 (cm):</text>
+            <input bindfocus="checkProfileExists" bindinput="onHeightInput" placeholder="请输入身高" type="digit" value="{{height}}"></input>
+        </view>
+        <view class="input-group">
+            <text>体重 (kg):</text>
+            <input bindfocus="checkProfileExists" bindinput="onWeightInput" placeholder="请输入体重" type="digit" value="{{weight}}"></input>
+        </view>
+        <button bindtap="calculateBMI" class="calculate-btn ripple-button" loading="{{isCalculating}}">{{isCalculating?'计算中...':'综合分析'}}</button>
+    </view>
+    <view class="result-container slide-up" style="animation-delay:0.15s" wx:if="{{bmi}}">
+        <view class="bmi-header fade-in" style="animation-delay:0.3s">
+            <text class="bmi-value">BMI: {{bmi}}</text>
+            <text class="bmi-category">{{category}}</text>
+        </view>
+        <view class="bmi-indicator fade-in" style="animation-delay:0.4s">
+            <view class="indicator-bar">
+                <view class="segment severe-underweight"></view>
+                <view class="segment underweight"></view>
+                <view class="segment normal"></view>
+                <view class="segment overweight"></view>
+                <view class="segment obese"></view>
+                <view class="indicator-pointer" style="left:{{indicatorPosition}}%"></view>
+            </view>
+            <view class="indicator-labels">
+                <text class="label">严重偏瘦</text>
+                <text class="label">偏瘦</text>
+                <text class="label">正常</text>
+                <text class="label">偏胖</text>
+                <text class="label">肥胖</text>
+            </view>
+        </view>
+        <view class="bmi-desc fade-in" style="animation-delay:0.4s">
+            <text>{{categoryDesc}}</text>
+        </view>
+        <view class="weight-range">
+            <text>你的理想体重范围: {{idealWeightRange}} 公斤</text>
+        </view>
+        <view class="additional-analysis">
+            <view class="analysis-section" style="animation-delay:0.5s">
+                <text class="section-title">基础代谢率 (BMR)</text>
+                <text class="section-value">{{bmr}} 千卡/天</text>
+                <text class="section-desc">基础代谢率是指人体在完全静息状态下维持生命所需的最低能量。</text>
+            </view>
+            <view class="analysis-section" style="animation-delay:0.6s">
+                <text class="section-title">燃脂心率区间</text>
+                <text class="section-value">{{fatBurningHrMin}} - {{fatBurningHrMax}} 次/分钟</text>
+                <text class="section-desc">在此心率区间内运动，身体燃烧脂肪效率最高。</text>
+            </view>
+            <view class="analysis-section" style="animation-delay:0.7s">
+                <text class="section-title">推荐饮水量</text>
+                <text class="section-value">{{recommendedWater}} 毫升/天</text>
+                <text class="section-desc">根据您的体重计算的理想饮水量。</text>
+            </view>
+            <view class="analysis-section" style="animation-delay:0.8s">
+                <text class="section-title">蛋白质推荐摄入量</text>
+                <text class="section-value">{{proteinBase}} - {{proteinActive}} 克/天</text>
+                <text class="section-desc">日常生活: {{proteinBase}}g | 中度运动: {{proteinModerate}}g | 积极健身: {{proteinActive}}g</text>
+                <text class="section-note">蛋白质是人体组织修复和肌肉生长的必需营养素，摄入量应根据您的活动水平调整。</text>
+            </view>
+        </view>
+        <view class="age-analysis" wx:if="{{ageAnalysis}}">
+            <text class="analysis-title">年龄分析</text>
+            <text class="analysis-content">{{ageAnalysis}}</text>
+        </view>
+        <view class="health-tips">
+            <text class="tips-title">健康建议</text>
+            <text class="tips-content">{{healthTips}}</text>
+        </view>
+        <button bindtap="saveRecord" class="save-btn ripple">保存记录</button>
+    </view>
+    <view class="goal-setting" wx:if="{{bmi}}">
+        <view class="goal-header">
+            <text class="goal-title">设定目标</text>
+        </view>
+        <view class="goal-form">
+            <view class="input-group">
+                <text>目标体重 (kg):</text>
+                <input bindinput="onGoalWeightInput" placeholder="请输入目标体重" type="digit" value="{{goalWeight}}"></input>
+            </view>
+            <button bindtap="setGoal" class="goal-btn">设定目标</button>
+        </view>
+        <view class="goal-status" wx:if="{{hasGoal}}">
+            <text class="goal-status-text">当前目标: {{goalWeight}}kg (BMI: {{goalBMI}})</text>
+            <text class="goal-diff-text">距离目标还有 {{weightDiff}}kg</text>
+            <progress activeColor="{{goalProgress>=100?'#4cd964':'#07c160'}}" backgroundColor="#eee" percent="{{goalProgress}}" strokeWidth="3"></progress>
+        </view>
+        <button bindtap="predictWeight" class="predict-btn" wx:if="{{hasGoal}}">预测达成时间</button>
+    </view>
+    <view class="food-calories-section">
+        <view class="section-header">
+            <text class="section-title">食品热量查询</text>
+            <view class="anchor-point" id="food-anchor"></view>
+        </view>
+        <view class="food-categories">
+            <scroll-view class="category-scroll" enableFlex="true" enhanced="true" scrollX="true" showScrollbar="false">
+                <view class="category-list">
+                    <view bindtap="selectFoodCategory" class="category-item {{currentFoodCategory===item.id?'active':''}}" data-id="{{item.id}}" wx:for="{{allFoodCategories}}" wx:key="id">{{item.name}}<view class="active-indicator" wx:if="{{currentFoodCategory===item.id}}"></view>
+                    </view>
+                </view>
+            </scroll-view>
+            <view class="scroll-hint">
+                <view class="hint-dot"></view>
+                <view class="hint-arrow"></view>
+            </view>
+        </view>
+        <view class="food-list">
+            <view bindtap="viewFoodDetail" class="food-item" data-id="{{item.id}}" wx:for="{{currentFoods}}" wx:key="id">
+                <view class="food-info">
+                    <text class="food-name">{{item.name}}</text>
+                    <text class="food-calories">{{item.calories}} 千卡/100{{item.unit}}</text>
+                </view>
+                <view class="food-arrow">
+                    <text class="arrow">></text>
+                </view>
+            </view>
+        </view>
+        <view class="food-disclaimer">
+            <text>以上所有食品数据，仅供参考</text>
+        </view>
+    </view>
+</view>

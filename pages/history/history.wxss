@@ -1,0 +1,311 @@
+.container {
+    background-color: var(--light-bg-color);
+    min-height: 100vh;
+    padding: 20px
+}
+
+.header {
+    margin-bottom: 30px;
+    text-align: center
+}
+
+.title {
+    -webkit-text-fill-color: transparent;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    font-size: 28px;
+    font-weight: 700
+}
+
+.no-data {
+    color: #999;
+    font-size: 16px;
+    margin-top: 100px;
+    text-align: center
+}
+
+.record-item,.records-list {
+    margin-bottom: 20px
+}
+
+.record-item {
+    -webkit-animation: modernSlideUp .5s cubic-bezier(.19,1,.22,1) forwards;
+    animation: modernSlideUp .5s cubic-bezier(.19,1,.22,1) forwards;
+    -webkit-animation-delay: calc(.1s * var(--index, 0));
+    animation-delay: calc(.1s * var(--index, 0));
+    background-color: var(--card-bg-color);
+    border: 1px solid hsla(0,0%,90%,.7);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    opacity: 0;
+    padding: 20px;
+    transition: all .3s cubic-bezier(.25,.8,.25,1)
+}
+
+@-webkit-keyframes modernSlideUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px)
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+@keyframes modernSlideUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px)
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+.record-item:active {
+    background-color: rgba(0,0,0,.03);
+    -webkit-transform: scale(.98);
+    transform: scale(.98);
+    transition: all .2s
+}
+
+.record-date {
+    border-left: 3px solid #4776e6;
+    color: var(--text-color);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    padding-left: 10px
+}
+
+.record-content {
+    margin-bottom: 10px;
+    margin-left: 10px
+}
+
+.record-row {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    margin-bottom: 8px
+}
+
+.label {
+    color: var(--text-secondary);
+    width: 80px
+}
+
+.label,.value {
+    font-weight: 500
+}
+
+.value {
+    color: var(--text-color);
+    -webkit-flex: 1;
+    flex: 1
+}
+
+.value.normal {
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(135deg,#43e97b,#38f9d7);
+    -webkit-background-clip: text;
+    font-weight: 600
+}
+
+.value.underweight {
+    color: #5db9ff
+}
+
+.value.overweight {
+    color: #fc0
+}
+
+.value.obese {
+    color: #ff3b30
+}
+
+.clear-btn {
+    background-color: #f44336;
+    box-shadow: 0 4px 10px rgba(244,67,54,.2);
+    color: #fff
+}
+
+.trend-analysis {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    margin-bottom: 15px;
+    padding: 15px
+}
+
+.trend-title {
+    color: #333;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px
+}
+
+.trend-item {
+    margin-bottom: 5px
+}
+
+.trend-text {
+    color: #666;
+    font-size: 14px
+}
+
+.action-buttons {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    background: hsla(0,0%,100%,.9);
+    bottom: 20px;
+    display: -webkit-flex;
+    display: flex;
+    gap: 15px;
+    left: 20px;
+    padding: 10px 5px;
+    position: fixed;
+    right: 20px;
+    z-index: 100
+}
+
+.clear-btn,.share-btn {
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 12px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex: 1;
+    flex: 1;
+    font-weight: 500;
+    height: 45px;
+    -webkit-justify-content: center;
+    justify-content: center;
+    transition: all .3s cubic-bezier(.25,.8,.25,1)
+}
+
+.share-btn {
+    background: linear-gradient(135deg,#4776e6,#8e54e9);
+    box-shadow: 0 4px 10px rgba(71,118,230,.2);
+    color: #fff
+}
+
+.clear-btn:active,.share-btn:active {
+    box-shadow: none;
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px)
+}
+
+.chart-section {
+    -webkit-animation: modernSlideUp .6s cubic-bezier(.19,1,.22,1) forwards;
+    animation: modernSlideUp .6s cubic-bezier(.19,1,.22,1) forwards;
+    background-color: var(--card-bg-color);
+    border: 1px solid hsla(0,0%,90%,.7);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+    padding: 20px
+}
+
+.section-title {
+    color: var(--text-color);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center
+}
+
+.weight-chart {
+    height: 280px;
+    width: 100%
+}
+
+.back-btn {
+    color: #07c160;
+    font-size: 14px;
+    left: 0;
+    position: absolute;
+    top: 5px
+}
+
+.weight-reference {
+    background-color: var(--card-bg-color);
+    border: 1px solid hsla(0,0%,90%,.7);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+    margin-top: 0;
+    padding: 20px
+}
+
+.reference-title {
+    -webkit-text-fill-color: transparent;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center
+}
+
+.reference-section,.section-header {
+    margin-bottom: 10px
+}
+
+.section-header {
+    border-left: 3px solid #4776e6;
+    color: #4776e6;
+    font-size: 16px;
+    font-weight: 700;
+    padding-left: 10px
+}
+
+.reference-table {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.03);
+    overflow: hidden;
+    width: 100%
+}
+
+.table-row {
+    border-bottom: 1px solid #eee;
+    display: -webkit-flex;
+    display: flex
+}
+
+.table-row.header {
+    background: linear-gradient(135deg,#4776e6,#8e54e9);
+    color: #fff;
+    font-weight: 700
+}
+
+.table-row:last-child {
+    border-bottom: none
+}
+
+.cell {
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 12px;
+    padding: 8px;
+    text-align: center
+}
+
+.reference-note {
+    color: #666;
+    display: block;
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 4px;
+    margin-top: 8px
+}

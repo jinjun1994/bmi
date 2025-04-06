@@ -1,0 +1,927 @@
+.container {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 10px;
+}
+
+.title {
+    background: linear-gradient(45deg, #4776E6 0%, #8E54E9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-container {
+    animation: modernSlideUp 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    background-color: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.gender-selector {
+    margin-bottom: 25px;
+}
+
+.gender-selector text {
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.ios-segmented-control {
+    background: #f0f2f5;
+    border-radius: 16px;
+    display: flex;
+    padding: 4px;
+    position: relative;
+    margin-top: 8px;
+}
+
+.segment {
+    flex: 1;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #666;
+    padding: 12px 0;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.segment.active {
+    color: #fff;
+}
+
+.segment.active::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    background: linear-gradient(45deg, #4776E6, #8E54E9);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(71,118,230,0.3);
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group text {
+    color: #333;
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.input-group input {
+    background-color: #f5f7fa;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    font-size: 16px;
+    height: 52px;
+    padding: 0 20px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.input-group input:focus {
+    background-color: #fff;
+    border-color: #4776E6;
+    box-shadow: 0 0 0 4px rgba(71,118,230,0.1);
+}
+
+.calculate-btn {
+    background: linear-gradient(45deg, #4776E6, #8E54E9);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(71,118,230,0.3);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    height: 56px;
+    letter-spacing: 0.5px;
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.calculate-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 15px rgba(71,118,230,0.2);
+}
+
+@keyframes modernSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-container {
+    background-color: var(--card-bg-color);
+    border: 1px solid hsla(0,0%,90%,.7);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+    padding: 24px
+}
+
+.bmi-header {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    margin-bottom: 15px
+}
+
+.bmi-value {
+    font-size: 20px;
+    font-weight: 700
+}
+
+.bmi-category {
+    color: #4776e6;
+    font-size: 18px;
+    font-weight: 700
+}
+
+.bmi-indicator {
+    margin-bottom: 15px;
+    margin-top: 5px
+}
+
+.indicator-bar {
+    border-radius: 4px;
+    height: 8px;
+    margin-bottom: 5px;
+    position: relative
+}
+
+.indicator-bar,.scale-line {
+    display: -webkit-flex;
+    display: flex;
+    overflow: hidden;
+    width: 100%
+}
+
+.scale-line {
+    border-radius: 5px;
+    height: 10px
+}
+
+.underweight {
+    background-color: #5db9ff
+}
+
+.normal {
+    background-color: #4cd964
+}
+
+.overweight {
+    background-color: #fc0
+}
+
+.obese {
+    background-color: #ff3b30
+}
+
+.indicator {
+    background-color: #000;
+    height: 20px;
+    position: absolute;
+    top: -5px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 4px
+}
+
+.bmi-desc {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: center
+}
+
+.save-btn {
+    -webkit-align-items: center;
+    align-items: center;
+    background: var(--primary-gradient);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(71,118,230,.3);
+    color: #fff;
+    display: -webkit-flex;
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    height: 52px;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-top: 15px;
+    width: 100%
+}
+
+.save-btn:active {
+    box-shadow: 0 2px 8px rgba(71,118,230,.2);
+    opacity: .9;
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px)
+}
+
+.tab-bar {
+    background-color: #fff;
+    border-top: 1px solid #e5e5e5;
+    bottom: 0;
+    display: -webkit-flex;
+    display: flex;
+    height: 50px;
+    left: 0;
+    position: fixed;
+    right: 0
+}
+
+.tab {
+    color: #888;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 14px;
+    line-height: 50px;
+    text-align: center
+}
+
+.tab.active {
+    color: #07c160;
+    font-weight: 700
+}
+
+.age-analysis,.health-tips {
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+    padding-top: 15px
+}
+
+.analysis-title,.tips-title {
+    color: #333;
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px
+}
+
+.analysis-content,.tips-content {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5
+}
+
+.goal-setting {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    margin-bottom: 20px;
+    padding: 20px
+}
+
+.goal-header {
+    margin-bottom: 15px
+}
+
+.goal-title {
+    color: #333;
+    font-size: 18px;
+    font-weight: 700
+}
+
+.goal-btn {
+    -webkit-align-items: center;
+    align-items: center;
+    background: var(--primary-gradient);
+    border-radius: 12px;
+    color: #fff;
+    display: -webkit-flex;
+    display: flex;
+    font-size: 16px;
+    height: 45px;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-top: 15px;
+    width: 100%
+}
+
+.goal-status {
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+    padding-top: 15px
+}
+
+.goal-status-text {
+    color: #333;
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 5px
+}
+
+.goal-diff-text {
+    color: #666;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 10px
+}
+
+.predict-btn {
+    background-color: var(--info-color);
+    border-radius: 12px;
+    color: #fff;
+    height: 45px;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-top: 15px
+}
+
+.current-profile,.predict-btn {
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex
+}
+
+.current-profile {
+    background: linear-gradient(135deg,hsla(0,0%,100%,.9),rgba(240,240,250,.95));
+    border: 1px solid rgba(220,225,255,.6);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(71,118,230,.1);
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 15px 20px;
+    position: relative
+}
+
+.current-profile::before {
+    background: var(--primary-gradient);
+    border-radius: 15px 0 0 15px;
+    content: "";
+    height: 100%;
+    left: -10px;
+    position: absolute;
+    top: 0;
+    width: 10px
+}
+
+.profile-name {
+    color: #4776e6;
+    font-size: 16px;
+    font-weight: 600;
+    padding-left: 5px
+}
+
+.switch-profile {
+    background: var(--primary-gradient);
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(71,118,230,.25);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 15px;
+    transition: all .3s ease
+}
+
+.switch-profile:active {
+    box-shadow: 0 1px 4px rgba(71,118,230,.15);
+    -webkit-transform: scale(.95);
+    transform: scale(.95)
+}
+
+.segment {
+    height: 100%
+}
+
+.severe-underweight {
+    background-color: #5c6bc0
+}
+
+.underweight {
+    background-color: #64b5f6
+}
+
+.normal {
+    background-color: #66bb6a
+}
+
+.overweight {
+    background-color: #ffd54f
+}
+
+.obese {
+    background-color: #ef5350
+}
+
+.indicator-labels {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    margin-top: 5px;
+    padding: 0 2px;
+    width: 100%
+}
+
+.label {
+    color: #666;
+    font-size: 12px;
+    overflow: hidden;
+    padding: 0 2px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 20%
+}
+
+.additional-analysis {
+    border-top: 1px solid #eee;
+    margin-bottom: 10px;
+    margin-top: 24px;
+    padding-top: 20px
+}
+
+.analysis-section {
+    -webkit-animation: fadeIn .5s ease forwards;
+    animation: fadeIn .5s ease forwards;
+    -webkit-animation-delay: .3s;
+    animation-delay: .3s;
+    border-bottom: 1px dashed #eee;
+    margin-bottom: 20px;
+    opacity: 0;
+    padding-bottom: 15px
+}
+
+.analysis-section:last-child {
+    border-bottom: none;
+    margin-bottom: 15px
+}
+
+.section-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px
+}
+
+.section-value {
+    -webkit-text-fill-color: transparent;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 5px
+}
+
+.section-desc {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5
+}
+
+.section-note {
+    color: #888;
+    display: block;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.5;
+    margin-top: 5px
+}
+
+.ios-segmented-control {
+    background-color: #f2f2f7;
+    border-radius: 8px;
+    display: -webkit-flex;
+    display: flex;
+    margin-top: 8px;
+    overflow: hidden;
+    padding: 2px;
+    position: relative
+}
+
+.segment {
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 14px;
+    padding: 10px 0;
+    text-align: center;
+    transition: color .3s ease;
+    z-index: 1
+}
+
+.segment.active {
+    color: #fff
+}
+
+.segment.active::before {
+    background-color: var(--primary-color);
+    border-radius: 6px;
+    bottom: 2px;
+    content: "";
+    position: absolute;
+    top: 2px;
+    transition: -webkit-transform .3s cubic-bezier(.34,1.56,.64,1);
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1),-webkit-transform .3s cubic-bezier(.34,1.56,.64,1);
+    width: calc(50% - 4px);
+    z-index: -1
+}
+
+.segment:nth-child(1).active::before {
+    left: 2px;
+    -webkit-transform: translateX(0);
+    transform: translateX(0)
+}
+
+.segment:nth-child(2).active::before {
+    left: 2px;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%)
+}
+
+.indicator-pointer {
+    background-color: #333;
+    border-radius: 3px;
+    height: 14px;
+    position: absolute;
+    top: -3px;
+    -webkit-transform: translateX(-3px);
+    transform: translateX(-3px);
+    width: 6px
+}
+
+.food-calories-section {
+    -webkit-animation: modernSlideUp .5s cubic-bezier(.19,1,.22,1);
+    animation: modernSlideUp .5s cubic-bezier(.19,1,.22,1);
+    background-color: var(--card-bg-color);
+    border: 1px solid hsla(0,0%,90%,.7);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 24px
+}
+
+.section-header {
+    margin-bottom: 20px
+}
+
+.section-title {
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: 700
+}
+
+.category-tabs {
+    margin-bottom: 20px
+}
+
+.category-scroll {
+    margin-bottom: 20rpx;
+    padding: 10rpx 0;
+    position: relative;
+    white-space: nowrap;
+    width: 100%
+}
+
+.category-list {
+    display: -webkit-flex;
+    display: flex;
+    padding: 0 10rpx
+}
+
+.category-item {
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: rgba(240,240,250,.6);
+    border-radius: 17px;
+    color: #666;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    font-size: 14px;
+    height: 34px;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-right: 10px;
+    min-width: 75px;
+    padding: 0 12px;
+    position: relative;
+    transition: all .3s
+}
+
+.category-item.active {
+    background: linear-gradient(135deg,rgba(7,193,96,.1),rgba(71,118,230,.1));
+    box-shadow: 0 4rpx 8rpx rgba(7,193,96,.15);
+    color: var(--primary-color);
+    font-weight: 700;
+    -webkit-transform: translateY(-2rpx);
+    transform: translateY(-2rpx)
+}
+
+.category-icon {
+    display: none
+}
+
+.active-indicator {
+    background: var(--primary-gradient);
+    border-radius: 2rpx;
+    bottom: 0;
+    box-shadow: 0 1rpx 3rpx rgba(0,0,0,.1);
+    height: 4rpx;
+    left: 50%;
+    position: absolute;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 20rpx
+}
+
+.scroll-hint {
+    display: none
+}
+
+.food-list {
+    max-height: 350px;
+    overflow-y: auto
+}
+
+.food-item {
+    -webkit-align-items: center;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding: 12px 15px;
+    transition: background-color .3s ease
+}
+
+.food-item:last-child {
+    border-bottom: none
+}
+
+.food-item:active {
+    background-color: rgba(0,0,0,.05)
+}
+
+.food-info {
+    -webkit-flex: 1;
+    flex: 1
+}
+
+.food-name {
+    color: var(--text-color);
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px
+}
+
+.food-calories {
+    color: var(--text-secondary);
+    font-size: 14px
+}
+
+.food-arrow {
+    color: #ccc;
+    font-size: 18px;
+    margin-left: 10px
+}
+
+.category-grid {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 10rpx
+}
+
+.category-grid-item {
+    background-color: #f5f5f5;
+    border-radius: 10rpx;
+    font-size: 28rpx;
+    margin: 1%;
+    padding: 15rpx 0;
+    text-align: center;
+    width: 23%
+}
+
+.category-grid-item.active {
+    background-color: var(--primary-color);
+    color: #fff
+}
+
+.category-swiper {
+    background-color: hsla(0,0%,96%,.6);
+    border-radius: 12rpx;
+    height: 180rpx;
+    overflow: hidden
+}
+
+.swiper-categories {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    padding: 20rpx
+}
+
+.category-pill {
+    background-color: #fff;
+    border-radius: 30rpx;
+    box-shadow: 0 2rpx 6rpx rgba(0,0,0,.05);
+    margin: 10rpx;
+    min-width: 120rpx;
+    padding: 15rpx 30rpx;
+    text-align: center;
+    transition: all .3s
+}
+
+.category-pill.active {
+    background-color: var(--primary-color);
+    box-shadow: 0 4rpx 10rpx rgba(7,193,96,.3);
+    color: #fff;
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05)
+}
+
+.category-main-options {
+    background-color: #f9f9f9;
+    border-radius: 10rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding: 10rpx
+}
+
+.main-category {
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 28rpx;
+    margin: 0 5rpx;
+    overflow: hidden;
+    padding: 15rpx 10rpx;
+    text-align: center;
+    text-overflow: ellipsis;
+    transition: all .3s;
+    white-space: nowrap
+}
+
+.main-category,.more-btn {
+    background: #fff;
+    border-radius: 8rpx
+}
+
+.more-btn {
+    -webkit-align-items: center;
+    align-items: center;
+    color: #888;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding: 15rpx 20rpx
+}
+
+.more-arrow {
+    height: 0;
+    margin-left: 5rpx;
+    width: 0
+}
+
+.more-arrow.down {
+    border-top: 6rpx solid #888
+}
+
+.more-arrow.down,.more-arrow.up {
+    border-left: 6rpx solid transparent;
+    border-right: 6rpx solid transparent
+}
+
+.more-arrow.up {
+    border-bottom: 6rpx solid #888
+}
+
+.more-categories {
+    -webkit-animation: slideDown .3s ease;
+    animation: slideDown .3s ease;
+    background-color: #f9f9f9;
+    border-bottom-left-radius: 10rpx;
+    border-bottom-right-radius: 10rpx;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-top: -10rpx;
+    padding: 15rpx 10rpx
+}
+
+.more-category {
+    background: #fff;
+    border-radius: 8rpx;
+    font-size: 26rpx;
+    margin: 1%;
+    padding: 15rpx 0;
+    text-align: center;
+    width: 23%
+}
+
+.main-category.active,.more-btn.active,.more-category.active {
+    background-color: var(--primary-color);
+    color: #fff
+}
+
+@-webkit-keyframes slideDown {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(-10rpx);
+        transform: translateY(-10rpx)
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        -webkit-transform: translateY(-10rpx);
+        transform: translateY(-10rpx)
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+.anchor-point {
+    height: 1px;
+    opacity: 0;
+    position: relative;
+    top: 0
+}
+
+.food-disclaimer {
+    border-top: 1px dashed #eee;
+    margin-top: 10px;
+    padding: 10px 0;
+    text-align: center
+}
+
+.food-disclaimer wx-text {
+    color: #999;
+    font-size: 12px;
+    font-style: italic
+}
+
+.weight-range {
+    background: linear-gradient(135deg,hsla(0,0%,100%,.9),rgba(240,240,250,.95));
+    border: 1px solid rgba(220,225,255,.6);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(71,118,230,.1);
+    margin: 15px 0;
+    padding: 10px;
+    text-align: center
+}
+
+.weight-range wx-text {
+    color: #4776e6;
+    font-size: 14px;
+    font-weight: 500
+}

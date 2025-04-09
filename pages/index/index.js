@@ -236,7 +236,26 @@ Page(e(e({
       allFoodCategories: e,
       currentFoodCategory: e[0].id,
       currentFoods: e[0].foods
-    }), console.log("已加载食品分类数量:", e.length), this.loadCurrentProfile()
+    }), console.log("已加载食品分类数量:", e.length);
+    
+    // 检查是否已有用户，如果没有则创建默认用户
+    var profiles = wx.getStorageSync("user_profiles") || [];
+    if (profiles.length === 0) {
+      var defaultProfile = {
+        id: Date.now().toString(),
+        name: "默认用户",
+        gender: "female",
+        age: "",
+        height: "",
+        weight: ""
+      };
+      profiles.push(defaultProfile);
+      wx.setStorageSync("user_profiles", profiles);
+      wx.setStorageSync("current_profile_id", defaultProfile.id);
+      console.log("已创建默认用户");
+    }
+    
+    this.loadCurrentProfile()
   },
   loadCurrentProfile: function() {
     var e = wx.getStorageSync("current_profile_id");

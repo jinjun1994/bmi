@@ -42,17 +42,17 @@ Page({
   },
   analyzeTrends: function(e) {
     var t = e.slice(0, 5),
-      a = this.calculateTrend(t.map((function(e) {
-        return e.weight
-      }))),
-      i = this.calculateTrend(t.map((function(e) {
-        return parseFloat(e.bmi)
-      })));
+      a = this.calculateTrend(t.map(function(e) {
+        return e.weight;
+      })),
+      i = this.calculateTrend(t.map(function(e) {
+        return parseFloat(e.bmi);
+      }));
     this.setData({
       showTrendAnalysis: !0,
       weightTrend: this.getTrendText(a, "体重"),
       bmiTrend: this.getTrendText(i, "BMI")
-    })
+    });
   },
   calculateTrend: function(e) {
     if (e.length < 2) return "stable";
@@ -171,10 +171,156 @@ Page({
   drawWeightChart: function(t) {
     this.chartRecords = t;
     var a = wx.createCanvasContext("weightChart"),
-      i = 40;
-    a.setFontSize(14), a.setFillStyle("#333"), a.fillText("体重变化趋势图", i, 20);
-    e(t).reverse();
-    a.setLineWidth(1), a.setStrokeStyle("#999"), a.setLineWidth(2), a.setStrokeStyle("#4776E6"), a.setFillStyle("#4776E6"), a.setFontSize(10), a.setFillStyle("rgba(150, 150, 150, 0.5)"), a.fillText("BMI标准体重计算器助手", i, 190), a.draw()
+      i = 40,
+      r = 20,
+      n = 200,
+      o = 150,
+      s = t.length > 1 ? (n - 2 * i) / (t.length - 1) : 0;
+    
+    // 计算各指标的最大最小值
+    var l = Math.max.apply(Math, t.map(function(e) { return e.weight; })),
+      c = Math.min.apply(Math, t.map(function(e) { return e.weight; })),
+      d = (l - c) * 1.2,
+      u = d > 0 ? o / d : 0;
+      
+    var b = Math.max.apply(Math, t.map(function(e) { return parseFloat(e.bmi); })),
+      m = Math.min.apply(Math, t.map(function(e) { return parseFloat(e.bmi); })),
+      v = (b - m) * 1.2,
+      w = v > 0 ? o / v : 0;
+      
+    var h = Math.max.apply(Math, t.map(function(e) { return e.height; })),
+      g = Math.min.apply(Math, t.map(function(e) { return e.height; })),
+      y = (h - g) * 1.2,
+      k = y > 0 ? o / y : 0;
+    
+    // 计算各指标的数据点
+    var weightPoints = t.map(function(e, t) {
+        return { x: i + t * s, y: r + o - (e.weight - c) * u };
+      }),
+      bmiPoints = t.map(function(e, t) {
+        return { x: i + t * s, y: r + o - (parseFloat(e.bmi) - m) * w };
+      }),
+      heightPoints = t.map(function(e, t) {
+        return { x: i + t * s, y: r + o - (e.height - g) * k };
+      });
+    
+    // 绘制背景
+    a.setFillStyle("#ffffff");
+    a.fillRect(0, 0, 300, 200);
+    
+    // 绘制标题
+    a.setFontSize(14);
+    a.setFillStyle("#333");
+    a.fillText("体重身高BMI变化趋势图", i, 20);
+    
+    // 绘制坐标轴
+    a.setLineWidth(1);
+    a.setStrokeStyle("#999");
+    a.beginPath();
+    a.moveTo(i, r);
+    a.lineTo(i, r + o);
+    a.lineTo(i + n, r + o);
+    a.stroke();
+    
+    // 绘制体重刻度
+    a.setFontSize(10);
+    a.setFillStyle("#666");
+    for (var f = 0; f <= 4; f++) {
+      var p = r + o - f * o / 4;
+      a.beginPath();
+      a.moveTo(i - 5, p);
+      a.lineTo(i, p);
+      a.stroke();
+      a.fillText((c + f * d / 4).toFixed(1), i - 30, p + 3);
+    }
+    
+    // 绘制BMI刻度（右侧）
+    a.setFontSize(10);
+    a.setFillStyle("#666");
+    for (var f = 0; f <= 4; f++) {
+      var p = r + o - f * o / 4;
+      a.fillText((m + f * v / 4).toFixed(1), i + n + 5, p + 3);
+    }
+    
+    // 绘制身高刻度（右侧）
+    a.setFontSize(10);
+    a.setFillStyle("#666");
+    for (var f = 0; f <= 4; f++) {
+      var p = r + o - f * o / 4;
+      a.fillText((g + f * y / 4).toFixed(0), i + n + 30, p + 3);
+    }
+    
+    // 绘制体重趋势线
+    a.setLineWidth(2);
+    a.setStrokeStyle("#4776E6");
+    a.setFillStyle("#4776E6");
+    weightPoints.forEach(function(e, t) {
+      a.beginPath();
+      a.arc(e.x, e.y, 3, 0, 2 * Math.PI);
+      a.fill();
+      if (t < weightPoints.length - 1) {
+        a.beginPath();
+        a.moveTo(e.x, e.y);
+        a.lineTo(weightPoints[t + 1].x, weightPoints[t + 1].y);
+        a.stroke();
+      }
+    });
+    
+    // 绘制BMI趋势线
+    a.setLineWidth(2);
+    a.setStrokeStyle("#43e97b");
+    a.setFillStyle("#43e97b");
+    bmiPoints.forEach(function(e, t) {
+      a.beginPath();
+      a.arc(e.x, e.y, 3, 0, 2 * Math.PI);
+      a.fill();
+      if (t < bmiPoints.length - 1) {
+        a.beginPath();
+        a.moveTo(e.x, e.y);
+        a.lineTo(bmiPoints[t + 1].x, bmiPoints[t + 1].y);
+        a.stroke();
+      }
+    });
+    
+    // 绘制身高趋势线
+    a.setLineWidth(2);
+    a.setStrokeStyle("#ffcc00");
+    a.setFillStyle("#ffcc00");
+    heightPoints.forEach(function(e, t) {
+      a.beginPath();
+      a.arc(e.x, e.y, 3, 0, 2 * Math.PI);
+      a.fill();
+      if (t < heightPoints.length - 1) {
+        a.beginPath();
+        a.moveTo(e.x, e.y);
+        a.lineTo(heightPoints[t + 1].x, heightPoints[t + 1].y);
+        a.stroke();
+      }
+    });
+    
+    // 绘制图例
+    a.setFontSize(10);
+    a.setFillStyle("#4776E6");
+    a.fillText("体重(kg)", i + 10, r + o + 30);
+    a.setFillStyle("#43e97b");
+    a.fillText("BMI", i + 80, r + o + 30);
+    a.setFillStyle("#ffcc00");
+    a.fillText("身高(cm)", i + 130, r + o + 30);
+    
+    // 绘制日期标签
+    a.setFontSize(10);
+    a.setFillStyle("#666");
+    t.forEach(function(e, t) {
+      var r = e.formattedDate.split("-");
+      a.fillText(r[1] + "/" + r[2], i + t * s - 10, r + o + 45);
+    });
+    
+    // 绘制版权信息
+    a.setFontSize(10);
+    a.setFillStyle("rgba(150, 150, 150, 0.5)");
+    a.fillText("BMI标准体重计算器助手", i, 190);
+    
+    a.draw();
   },
   loadProfileRecords: function(e) {
     var t = (wx.getStorageSync("user_profiles") || []).find((function(t) {

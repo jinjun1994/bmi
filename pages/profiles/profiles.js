@@ -47,7 +47,15 @@ Page({
   },
   selectProfile: function(e) {
     var t = e.currentTarget.dataset.id;
-    wx.setStorageSync("current_profile_id", t), wx.setStorageSync("returning_from_profile", !0), wx.navigateBack()
+    wx.setStorageSync("current_profile_id", t);
+    wx.setStorageSync("returning_from_profile", !0);
+    
+    // 立即更新当前视图状态
+    this.setData({
+      currentProfileId: t
+    });
+    
+    wx.navigateBack();
   },
   showDeleteConfirm: function(e) {
     var t = this,

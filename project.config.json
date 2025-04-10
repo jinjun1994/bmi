@@ -10,7 +10,11 @@
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
-    }
+    },
+    "minified": true,
+    "es6": true,
+    "enhance": true,
+    "uglifyFileName": true
   },
   "editorSetting": {
     "tabIndent": "insertSpaces",

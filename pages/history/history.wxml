@@ -15,8 +15,12 @@
         </view>
     </view>
     <view class="chart-section" wx:if="{{records.length>=2}}">
-        <view class="section-title">体重身高年龄变化趋势</view>
-        <canvas canvasId="weightChart" class="weight-chart"></canvas>
+        <view class="section-title">体重变化趋势</view>
+        <canvas canvasId="weightChart" class="trend-chart"></canvas>
+        <view class="section-title">BMI变化趋势</view>
+        <canvas canvasId="bmiChart" class="trend-chart"></canvas>
+        <view class="section-title">身高变化趋势</view>
+        <canvas canvasId="heightChart" class="trend-chart"></canvas>
     </view>
     <view class="records-list" wx:if="{{records.length>0}}">
         <view bindlongpress="showDeleteRecordConfirm" class="record-item" data-index="{{index}}" style="--index:{{index}}" wx:for="{{records}}" wx:key="date">

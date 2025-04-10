@@ -205,6 +205,12 @@
     transform: translateY(2px)
 }
 
+.trend-chart {
+    height: 200px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
 .chart-section {
     -webkit-animation: modernSlideUp .6s cubic-bezier(.19,1,.22,1) forwards;
     animation: modernSlideUp .6s cubic-bezier(.19,1,.22,1) forwards;

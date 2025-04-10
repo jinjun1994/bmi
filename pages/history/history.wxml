@@ -126,5 +126,5 @@
         <text class="reference-note">随着年龄增长，理想BMI范围略有增加，这是由于老年人需要一定体重储备以应对疾病风险</text>
     </view>
     <view style="height:{{bottomPadding}}px;"></view>
-    <canvas canvasId="shareCanvas" style="width:300px;height:420px;position:fixed;top:-9999px;"></canvas>
+    <canvas id="shareCanvas" type="2d" style="width:300px;height:800px;"></canvas>
 </view>

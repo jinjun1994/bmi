@@ -100,75 +100,497 @@ Page({
     this.data.records.length >= 2 ? this.shareMultipleRecords() : this.shareSingleRecord()
   },
   shareMultipleRecords: function() {
-    var e = this;
-    wx.canvasToTempFilePath({
-      x: 0,
-      y: 0,
-      canvasId: "weightChart",
-      success: function(t) {
-        var a = t.tempFilePath;
-        e.data.isViewingOtherProfile && e.data.viewingProfileName;
-        wx.hideLoading(), wx.showShareImageMenu({
-          path: a,
-          success: function() {
-            wx.showToast({
-              title: "图片已准备分享",
-              icon: "success"
-            })
-          },
-          fail: function(e) {
-            console.error("分享图片失败", e), wx.showToast({
-              title: "分享图片失败",
-              icon: "none"
-            })
-          }
-        })
-      },
-      fail: function(e) {
-        wx.hideLoading(), console.error("生成图片失败", e), wx.showToast({
-          title: "生成图片失败",
-          icon: "none"
-        })
-      }
-    })
-  },
-  shareSingleRecord: function() {
-    var e = this.data.records[0],
-      t = wx.createCanvasContext("shareCanvas");
-    t.setFillStyle("#ffffff"), t.fillRect(0, 0, 300, 420), t.setFontSize(18), t.setFillStyle("#4776E6"), t.setTextAlign("center"), t.fillText("BMI和健康数据", 150, 40), t.setFontSize(14), t.setFillStyle("#333333"), t.setTextAlign("center"), t.fillText("记录日期: ".concat(e.formattedDate), 150, 70), t.setLineWidth(1), t.setStrokeStyle("#eeeeee"), t.beginPath(), t.moveTo(20, 85), t.lineTo(280, 85), t.stroke(), t.setFontSize(14), t.setTextAlign("left"), t.setFillStyle("#666666");
-    t.fillText("身高:", 40, 120), t.fillText("体重:", 40, 150), t.fillText("BMI:", 40, 180), t.fillText("体型:", 40, 210), e.bmr && (t.fillText("基础代谢:", 40, 240), t.fillText("推荐饮水:", 40, 270), t.fillText("蛋白质需求:", 40, 300)), t.setFillStyle("#333333"), t.setFontSize(14), t.fillText("".concat(e.height, " cm"), 140, 120), t.fillText("".concat(e.weight, " kg"), 140, 150), t.fillText(e.bmi, 140, 180);
-    var a = "#333333";
-    a = "正常" === e.category ? "#43e97b" : "偏瘦" === e.category ? "#5db9ff" : "偏胖" === e.category ? "#ffcc00" : "#ff3b30", t.setFillStyle(a), t.fillText(e.category, 140, 210), e.bmr && (t.setFillStyle("#333333"), t.fillText("".concat(e.bmr, " 千卡/天"), 140, 240), t.fillText("".concat(e.recommendedWater, " 毫升/天"), 140, 270), t.fillText("".concat(e.proteinBase, "-").concat(e.proteinActive, " 克/天"), 140, 300)), t.setFontSize(12), t.setFillStyle("#999999"), t.setTextAlign("center"), t.fillText("扫描小程序码，测算您的BMI和健康数据", 150, 370), t.setFontSize(10), t.setFillStyle("rgba(150, 150, 150, 0.5)"), t.fillText("BMI标准体重计算器助手", 150, 400), t.draw(!1, (function() {
-      setTimeout((function() {
+    // 创建Canvas上下文
+    const query = wx.createSelectorQuery();
+    query.select('#shareCanvas')
+      .fields({ node: true, size: true })
+      .exec((res) => {
+        const canvas = res[0].node;
+        const ctx = canvas.getContext('2d');
+        
+        // 设置Canvas大小
+        const dpr = wx.getSystemInfoSync().pixelRatio;
+        canvas.width = 300 * dpr;
+        canvas.height = 900 * dpr;
+        ctx.scale(dpr, dpr);
+        
+        // 清空画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // 绘制背景
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, 300, 900);
+        
+        // 绘制标题
+        ctx.font = "18px sans-serif";
+        ctx.fillStyle = "#4776E6";
+        ctx.textAlign = "center";
+        ctx.fillText("健康数据趋势分析", 150, 40);
+        
+        // 绘制最新记录日期
+        var latestRecord = this.data.records[this.data.records.length - 1];
+        ctx.font = "14px sans-serif";
+        ctx.fillStyle = "#333333";
+        ctx.textAlign = "center";
+        ctx.fillText("记录日期: " + latestRecord.formattedDate, 150, 70);
+        
+        // 绘制分隔线
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#eeeeee";
+        ctx.beginPath();
+        ctx.moveTo(20, 85);
+        ctx.lineTo(280, 85);
+        ctx.stroke();
+        
+        // 绘制体重趋势图
+        this.drawWeightChartForShare(ctx, 20, 100, 260, 200);
+        
+        // 绘制BMI趋势图
+        this.drawBmiChartForShare(ctx, 20, 320, 260, 200);
+        
+        // 绘制身高趋势图
+        this.drawHeightChartForShare(ctx, 20, 540, 260, 200);
+        
+        // 绘制底部信息
+        ctx.font = "12px sans-serif";
+        ctx.fillStyle = "#999999";
+        ctx.textAlign = "center";
+        ctx.fillText("扫描小程序码，测算您的BMI和健康数据", 150, 770);
+        
+        ctx.font = "10px sans-serif";
+        ctx.fillStyle = "rgba(150, 150, 150, 0.5)";
+        ctx.fillText("BMI标准体重计算器助手", 150, 800);
+        
+        // 生成图片
         wx.canvasToTempFilePath({
-          canvasId: "shareCanvas",
+          canvas: canvas,
+          x: 0,
+          y: 0,
+          width: 300,
+          height: 900,
+          destWidth: 300,
+          destHeight: 900,
           success: function(e) {
             var t = e.tempFilePath;
-            wx.hideLoading(), wx.showShareImageMenu({
+            wx.hideLoading();
+            wx.showShareImageMenu({
               path: t,
               success: function() {
                 wx.showToast({
                   title: "图片已准备分享",
                   icon: "success"
-                })
+                });
               },
               fail: function(e) {
-                console.error("分享图片失败", e), wx.showToast({
+                console.error("分享图片失败", e);
+                wx.showToast({
                   title: "分享图片失败",
                   icon: "none"
-                })
+                });
               }
-            })
+            });
           },
           fail: function(e) {
-            wx.hideLoading(), console.error("生成图片失败", e), wx.showToast({
+            wx.hideLoading();
+            console.error("生成图片失败", e);
+            wx.showToast({
               title: "生成图片失败",
               icon: "none"
-            })
+            });
           }
-        })
-      }), 200)
-    }))
+        });
+      });
+  },
+  drawWeightChartForShare: function(ctx, x, y, width, height) {
+    var records = this.data.records.slice().reverse();
+    
+    // 绘制图表背景
+    ctx.fillStyle = "#f8f9fa";
+    ctx.fillRect(x, y, width, height);
+    
+    // 绘制标题
+    ctx.font = "14px sans-serif";
+    ctx.fillStyle = "#333";
+    ctx.textAlign = "left";
+    ctx.fillText("体重变化趋势", x + 10, y + 20);
+    
+    // 计算体重数据
+    var weightData = records.map(function(r) { return r.weight; });
+    var maxWeight = Math.max.apply(Math, weightData);
+    var minWeight = Math.min.apply(Math, weightData);
+    var range = (maxWeight - minWeight) * 1.2;
+    var scale = range > 0 ? (height - 40) / range : 0;
+    
+    // 绘制坐标轴
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#999";
+    ctx.beginPath();
+    ctx.moveTo(x + 40, y + height - 20);
+    ctx.lineTo(x + width - 20, y + height - 20);
+    ctx.stroke();
+    
+    // 绘制体重趋势线
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#4776E6";
+    ctx.fillStyle = "#4776E6";
+    
+    var points = records.map(function(r, i) {
+      var pointX = x + 40 + (i * (width - 60)) / (records.length - 1);
+      var pointY = y + height - 20 - ((r.weight - minWeight) * scale);
+      return { x: pointX, y: pointY };
+    });
+    
+    // 绘制连接线
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (var i = 1; i < points.length; i++) {
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.stroke();
+    
+    // 绘制数据点
+    points.forEach(function(point) {
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+    
+    // 绘制日期标签
+    ctx.font = "10px sans-serif";
+    ctx.fillStyle = "#666";
+    records.forEach(function(r, i) {
+      var date = r.formattedDate.split("-");
+      var labelX = x + 40 + (i * (width - 60)) / (records.length - 1);
+      ctx.fillText(date[1] + "/" + date[2], labelX - 10, y + height);
+    });
+  },
+  drawBmiChartForShare: function(ctx, x, y, width, height) {
+    var records = this.data.records.slice().reverse();
+    
+    // 绘制图表背景
+    ctx.fillStyle = "#f8f9fa";
+    ctx.fillRect(x, y, width, height);
+    
+    // 绘制标题
+    ctx.font = "14px sans-serif";
+    ctx.fillStyle = "#333";
+    ctx.textAlign = "left";
+    ctx.fillText("BMI变化趋势", x + 10, y + 20);
+    
+    // 计算BMI数据
+    var bmiData = records.map(function(r) { return parseFloat(r.bmi); });
+    var maxBmi = Math.max.apply(Math, bmiData);
+    var minBmi = Math.min.apply(Math, bmiData);
+    var range = (maxBmi - minBmi) * 1.2;
+    var scale = range > 0 ? (height - 40) / range : 0;
+    
+    // 绘制坐标轴
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#999";
+    ctx.beginPath();
+    ctx.moveTo(x + 40, y + height - 20);
+    ctx.lineTo(x + width - 20, y + height - 20);
+    ctx.stroke();
+    
+    // 绘制BMI趋势线
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#43e97b";
+    ctx.fillStyle = "#43e97b";
+    
+    var points = records.map(function(r, i) {
+      var pointX = x + 40 + (i * (width - 60)) / (records.length - 1);
+      var pointY = y + height - 20 - ((parseFloat(r.bmi) - minBmi) * scale);
+      return { x: pointX, y: pointY };
+    });
+    
+    // 绘制连接线
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (var i = 1; i < points.length; i++) {
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.stroke();
+    
+    // 绘制数据点
+    points.forEach(function(point) {
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+    
+    // 绘制日期标签
+    ctx.font = "10px sans-serif";
+    ctx.fillStyle = "#666";
+    records.forEach(function(r, i) {
+      var date = r.formattedDate.split("-");
+      var labelX = x + 40 + (i * (width - 60)) / (records.length - 1);
+      ctx.fillText(date[1] + "/" + date[2], labelX - 10, y + height);
+    });
+  },
+  drawHeightChartForShare: function(ctx, x, y, width, height) {
+    var records = this.data.records.slice().reverse();
+    
+    // 绘制图表背景
+    ctx.fillStyle = "#f8f9fa";
+    ctx.fillRect(x, y, width, height);
+    
+    // 绘制标题
+    ctx.font = "14px sans-serif";
+    ctx.fillStyle = "#333";
+    ctx.textAlign = "left";
+    ctx.fillText("身高变化趋势", x + 10, y + 20);
+    
+    // 计算身高数据
+    var heightData = records.map(function(r) { return r.height; });
+    var maxHeight = Math.max.apply(Math, heightData);
+    var minHeight = Math.min.apply(Math, heightData);
+    var range = (maxHeight - minHeight) * 1.2;
+    var scale = range > 0 ? (height - 40) / range : 0;
+    
+    // 绘制坐标轴
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#999";
+    ctx.beginPath();
+    ctx.moveTo(x + 40, y + height - 20);
+    ctx.lineTo(x + width - 20, y + height - 20);
+    ctx.stroke();
+    
+    // 绘制身高趋势线
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#ffcc00";
+    ctx.fillStyle = "#ffcc00";
+    
+    var points = records.map(function(r, i) {
+      var pointX = x + 40 + (i * (width - 60)) / (records.length - 1);
+      var pointY = y + height - 20 - ((r.height - minHeight) * scale);
+      return { x: pointX, y: pointY };
+    });
+    
+    // 绘制连接线
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (var i = 1; i < points.length; i++) {
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.stroke();
+    
+    // 绘制数据点
+    points.forEach(function(point) {
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+    
+    // 绘制日期标签
+    ctx.font = "10px sans-serif";
+    ctx.fillStyle = "#666";
+    records.forEach(function(r, i) {
+      var date = r.formattedDate.split("-");
+      var labelX = x + 40 + (i * (width - 60)) / (records.length - 1);
+      ctx.fillText(date[1] + "/" + date[2], labelX - 10, y + height);
+    });
+  },
+  shareSingleRecord: function() {
+    var e = this.data.records[this.data.records.length - 1];
+    
+    // 创建Canvas上下文
+    const query = wx.createSelectorQuery();
+    query.select('#shareCanvas')
+      .fields({ node: true, size: true })
+      .exec((res) => {
+        const canvas = res[0].node;
+        const ctx = canvas.getContext('2d');
+        
+        // 设置Canvas大小
+        const dpr = wx.getSystemInfoSync().pixelRatio;
+        canvas.width = 300 * dpr;
+        canvas.height = 800 * dpr;
+        ctx.scale(dpr, dpr);
+        
+        // 清空画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // 绘制背景
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, 300, 800);
+        
+        // 绘制标题
+        ctx.font = "18px sans-serif";
+        ctx.fillStyle = "#4776E6";
+        ctx.textAlign = "center";
+        ctx.fillText("BMI和健康数据", 150, 40);
+        
+        // 绘制最新记录日期
+        ctx.font = "14px sans-serif";
+        ctx.fillStyle = "#333333";
+        ctx.textAlign = "center";
+        ctx.fillText("记录日期: " + e.formattedDate, 150, 70);
+        
+        // 绘制分隔线
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#eeeeee";
+        ctx.beginPath();
+        ctx.moveTo(20, 85);
+        ctx.lineTo(280, 85);
+        ctx.stroke();
+        
+        // 绘制数据标签
+        ctx.font = "14px sans-serif";
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#666666";
+        ctx.fillText("身高:", 40, 120);
+        ctx.fillText("体重:", 40, 150);
+        ctx.fillText("BMI:", 40, 180);
+        ctx.fillText("体型:", 40, 210);
+        
+        // 绘制数据值
+        ctx.fillStyle = "#333333";
+        ctx.font = "14px sans-serif";
+        ctx.fillText(e.height + " cm", 140, 120);
+        ctx.fillText(e.weight + " kg", 140, 150);
+        ctx.fillText(e.bmi, 140, 180);
+        
+        // 绘制体型状态（使用不同颜色）
+        var a = "#333333";
+        a = e.category === "正常" ? "#43e97b" : e.category === "偏瘦" ? "#5db9ff" : e.category === "偏胖" ? "#ffcc00" : "#ff3b30";
+        ctx.fillStyle = a;
+        ctx.fillText(e.category, 140, 210);
+        
+        // 绘制BMI趋势图（如果有两条或以上记录）
+        if (this.data.records.length >= 2) {
+          // 计算BMI趋势图的位置和大小
+          var chartX = 20,
+              chartY = 240,
+              chartWidth = 260,
+              chartHeight = 300;
+          
+          // 绘制图表背景
+          ctx.fillStyle = "#f8f9fa";
+          ctx.fillRect(chartX, chartY, chartWidth, chartHeight);
+          
+          // 绘制标题
+          ctx.font = "14px sans-serif";
+          ctx.fillStyle = "#333";
+          ctx.textAlign = "left";
+          ctx.fillText("BMI变化趋势", chartX + 10, chartY + 20);
+          
+          // 绘制坐标轴
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = "#999";
+          ctx.beginPath();
+          ctx.moveTo(chartX + 40, chartY + chartHeight - 20);
+          ctx.lineTo(chartX + chartWidth - 20, chartY + chartHeight - 20);
+          ctx.stroke();
+          
+          // 计算BMI数据点
+          var records = this.data.records.slice().reverse();
+          var bmiData = records.map(function(r) { return parseFloat(r.bmi); });
+          var maxBmi = Math.max.apply(Math, bmiData);
+          var minBmi = Math.min.apply(Math, bmiData);
+          var range = (maxBmi - minBmi) * 1.2;
+          var scale = range > 0 ? (chartHeight - 40) / range : 0;
+          
+          // 绘制BMI趋势线
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "#43e97b";
+          ctx.fillStyle = "#43e97b";
+          
+          var points = records.map(function(r, i) {
+            var x = chartX + 40 + (i * (chartWidth - 60)) / (records.length - 1);
+            var y = chartY + chartHeight - 20 - ((parseFloat(r.bmi) - minBmi) * scale);
+            return { x: x, y: y };
+          });
+          
+          // 绘制连接线
+          ctx.beginPath();
+          ctx.moveTo(points[0].x, points[0].y);
+          for (var i = 1; i < points.length; i++) {
+            ctx.lineTo(points[i].x, points[i].y);
+          }
+          ctx.stroke();
+          
+          // 绘制数据点
+          points.forEach(function(point) {
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
+            ctx.fill();
+          });
+          
+          // 绘制日期标签
+          ctx.font = "10px sans-serif";
+          ctx.fillStyle = "#666";
+          records.forEach(function(r, i) {
+            var date = r.formattedDate.split("-");
+            var x = chartX + 40 + (i * (chartWidth - 60)) / (records.length - 1);
+            ctx.fillText(date[1] + "/" + date[2], x - 10, chartY + chartHeight);
+          });
+        }
+        
+        // 绘制小程序二维码
+        var qrCodeSize = 100;
+        var qrCodeX = (300 - qrCodeSize) / 2;
+        var qrCodeY = 560;
+        
+        // 绘制二维码背景
+        ctx.fillStyle = "#f8f9fa";
+        ctx.fillRect(qrCodeX - 10, qrCodeY - 10, qrCodeSize + 20, qrCodeSize + 20);
+        
+        // 绘制二维码
+        const qrCode = canvas.createImage();
+        qrCode.onload = () => {
+          ctx.drawImage(qrCode, qrCodeX, qrCodeY, qrCodeSize, qrCodeSize);
+          
+          // 绘制底部信息
+          ctx.font = "12px sans-serif";
+          ctx.fillStyle = "#999999";
+          ctx.textAlign = "center";
+          ctx.fillText("扫描小程序码，测算您的BMI和健康数据", 150, 680);
+          
+          ctx.font = "10px sans-serif";
+          ctx.fillStyle = "rgba(150, 150, 150, 0.5)";
+          ctx.fillText("BMI标准体重计算器助手", 150, 700);
+          
+          // 生成图片
+          wx.canvasToTempFilePath({
+            canvas: canvas,
+            x: 0,
+            y: 0,
+            width: 300,
+            height: 800,
+            destWidth: 300,
+            destHeight: 800,
+            success: function(e) {
+              var t = e.tempFilePath;
+              wx.hideLoading();
+              wx.showShareImageMenu({
+                path: t,
+                success: function() {
+                  wx.showToast({
+                    title: "图片已准备分享",
+                    icon: "success"
+                  });
+                },
+                fail: function(e) {
+                  console.error("分享图片失败", e);
+                  wx.showToast({
+                    title: "分享图片失败",
+                    icon: "none"
+                  });
+                }
+              });
+            },
+            fail: function(e) {
+              wx.hideLoading();
+              console.error("生成图片失败", e);
+              wx.showToast({
+                title: "生成图片失败",
+                icon: "none"
+              });
+            }
+          });
+        };
+        qrCode.src = "/images/qrcode.jpg";
+      });
   },
   drawWeightChart: function(t) {
     this.chartRecords = t;

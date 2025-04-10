@@ -10,10 +10,10 @@
         <view class="gender-selector">
             <text>性别:</text>
             <radio-group bindchange="onGenderChange">
-                <label>
+                <label class="radio-label">
                     <radio checked="{{gender==='female'}}" value="female"></radio>女性
                 </label>
-                <label>
+                <label class="radio-label">
                     <radio checked="{{gender==='male'}}" value="male"></radio>男性
                 </label>
             </radio-group>

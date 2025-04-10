@@ -1,6 +1,6 @@
 <view class="container">
     <view class="header">
-        <text class="title">BMI 标准体重计算器</text>
+        <text class="title">BMI体重指数趋势计算器</text>
     </view>
     <view class="current-profile" wx:if="{{currentProfileName}}">
         <text class="profile-name">当前用户: {{currentProfileName}}</text>

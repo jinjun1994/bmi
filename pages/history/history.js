@@ -100,6 +100,11 @@ Page({
     this.data.records.length >= 2 ? this.shareMultipleRecords() : this.shareSingleRecord()
   },
   shareMultipleRecords: function() {
+    var latestRecord = this.data.records[this.data.records.length - 1];
+    var userProfiles = wx.getStorageSync("user_profiles") || [];
+    var currentProfile = userProfiles.find(function(profile) { return profile.id === wx.getStorageSync("current_profile_id"); });
+    var currentUser = currentProfile ? currentProfile.name : '用户';
+    
     // 创建Canvas上下文
     const query = wx.createSelectorQuery();
     query.select('#shareCanvas')
@@ -111,7 +116,7 @@ Page({
         // 设置Canvas大小
         const dpr = wx.getSystemInfoSync().pixelRatio;
         canvas.width = 300 * dpr;
-        canvas.height = 900 * dpr;
+        canvas.height = 800 * dpr;
         ctx.scale(dpr, dpr);
         
         // 清空画布
@@ -119,16 +124,15 @@ Page({
         
         // 绘制背景
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, 300, 900);
+        ctx.fillRect(0, 0, 300, 800);
         
         // 绘制标题
         ctx.font = "18px sans-serif";
         ctx.fillStyle = "#4776E6";
         ctx.textAlign = "center";
-        ctx.fillText("健康数据趋势分析", 150, 40);
+        ctx.fillText(currentUser + "的BMI和健康数据", 150, 40);
         
         // 绘制最新记录日期
-        var latestRecord = this.data.records[this.data.records.length - 1];
         ctx.font = "14px sans-serif";
         ctx.fillStyle = "#333333";
         ctx.textAlign = "center";
@@ -142,63 +146,96 @@ Page({
         ctx.lineTo(280, 85);
         ctx.stroke();
         
-        // 绘制体重趋势图
-        this.drawWeightChartForShare(ctx, 20, 100, 260, 200);
+        // 绘制数据标签
+        ctx.font = "14px sans-serif";
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#666666";
+        // 
+        ctx.fillText("身高:", 40, 120);
+        ctx.fillText("体重:", 40, 150);
+        ctx.fillText("BMI:", 40, 180);
+        ctx.fillText("体型:", 40, 210);
+        
+        // 绘制数据值
+        ctx.fillStyle = "#333333";
+        ctx.font = "14px sans-serif";
+        ctx.fillText(latestRecord.height + " cm", 140, 120);
+        ctx.fillText(latestRecord.weight + " kg", 140, 150);
+        ctx.fillText(latestRecord.bmi, 140, 180);
+        
+        // 绘制体型状态（使用不同颜色）
+        var a = "#333333";
+        a = latestRecord.category === "正常" ? "#43e97b" : latestRecord.category === "偏瘦" ? "#5db9ff" : latestRecord.category === "偏胖" ? "#ffcc00" : "#ff3b30";
+        ctx.fillStyle = a;
+        ctx.fillText(latestRecord.category, 140, 210);
         
         // 绘制BMI趋势图
-        this.drawBmiChartForShare(ctx, 20, 320, 260, 200);
+        this.drawBmiChartForShare(ctx, 20, 240, 260, 300);
         
-        // 绘制身高趋势图
-        this.drawHeightChartForShare(ctx, 20, 540, 260, 200);
+        // 绘制小程序二维码
+        var qrCodeSize = 100;
+        var qrCodeX = (300 - qrCodeSize) / 2;
+        var qrCodeY = 560;
         
-        // 绘制底部信息
-        ctx.font = "12px sans-serif";
-        ctx.fillStyle = "#999999";
-        ctx.textAlign = "center";
-        ctx.fillText("扫描小程序码，测算您的BMI和健康数据", 150, 770);
+        // 绘制二维码背景
+        ctx.fillStyle = "#f8f9fa";
+        ctx.fillRect(qrCodeX - 10, qrCodeY - 10, qrCodeSize + 20, qrCodeSize + 20);
         
-        ctx.font = "10px sans-serif";
-        ctx.fillStyle = "rgba(150, 150, 150, 0.5)";
-        ctx.fillText("BMI标准体重计算器助手", 150, 800);
-        
-        // 生成图片
-        wx.canvasToTempFilePath({
-          canvas: canvas,
-          x: 0,
-          y: 0,
-          width: 300,
-          height: 900,
-          destWidth: 300,
-          destHeight: 900,
-          success: function(e) {
-            var t = e.tempFilePath;
-            wx.hideLoading();
-            wx.showShareImageMenu({
-              path: t,
-              success: function() {
-                wx.showToast({
-                  title: "图片已准备分享",
-                  icon: "success"
-                });
-              },
-              fail: function(e) {
-                console.error("分享图片失败", e);
-                wx.showToast({
-                  title: "分享图片失败",
-                  icon: "none"
-                });
-              }
-            });
-          },
-          fail: function(e) {
-            wx.hideLoading();
-            console.error("生成图片失败", e);
-            wx.showToast({
-              title: "生成图片失败",
-              icon: "none"
-            });
-          }
-        });
+        // 绘制二维码
+        const qrCode = canvas.createImage();
+        qrCode.onload = () => {
+          ctx.drawImage(qrCode, qrCodeX, qrCodeY, qrCodeSize, qrCodeSize);
+          
+          // 绘制底部信息
+          ctx.font = "12px sans-serif";
+          ctx.fillStyle = "#999999";
+          ctx.textAlign = "center";
+          ctx.fillText("扫描小程序码，测算您的BMI和健康数据", 150, 680);
+          
+          ctx.font = "10px sans-serif";
+          ctx.fillStyle = "rgba(150, 150, 150, 0.5)";
+          ctx.fillText("BMI标准体重指数趋势计算器", 150, 700);
+          
+          // 生成图片
+          wx.canvasToTempFilePath({
+            canvas: canvas,
+            x: 0,
+            y: 0,
+            width: 300,
+            height: 800,
+            destWidth: 300,
+            destHeight: 800,
+            success: function(e) {
+              var t = e.tempFilePath;
+              wx.hideLoading();
+              wx.showShareImageMenu({
+                path: t,
+                success: function() {
+                  wx.showToast({
+                    title: "图片已准备分享",
+                    icon: "success"
+                  });
+                },
+                fail: function(e) {
+                  console.error("分享图片失败", e);
+                  wx.showToast({
+                    title: "分享图片失败",
+                    icon: "none"
+                  });
+                }
+              });
+            },
+            fail: function(e) {
+              wx.hideLoading();
+              console.error("生成图片失败", e);
+              wx.showToast({
+                title: "生成图片失败",
+                icon: "none"
+              });
+            }
+          });
+        };
+        qrCode.src = "/images/qrcode.jpg";
       });
   },
   drawWeightChartForShare: function(ctx, x, y, width, height) {
@@ -392,6 +429,9 @@ Page({
   },
   shareSingleRecord: function() {
     var e = this.data.records[this.data.records.length - 1];
+    var userProfiles = wx.getStorageSync("user_profiles") || [];
+    var currentProfile = userProfiles.find(function(profile) { return profile.is_current; });
+    var currentUser = currentProfile ? currentProfile.name : '用户';
     
     // 创建Canvas上下文
     const query = wx.createSelectorQuery();
@@ -404,7 +444,7 @@ Page({
         // 设置Canvas大小
         const dpr = wx.getSystemInfoSync().pixelRatio;
         canvas.width = 300 * dpr;
-        canvas.height = 800 * dpr;
+        canvas.height = 400 * dpr; // 减小高度，因为不需要趋势图
         ctx.scale(dpr, dpr);
         
         // 清空画布
@@ -412,13 +452,13 @@ Page({
         
         // 绘制背景
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, 300, 800);
+        ctx.fillRect(0, 0, 300, 400);
         
         // 绘制标题
         ctx.font = "18px sans-serif";
         ctx.fillStyle = "#4776E6";
         ctx.textAlign = "center";
-        ctx.fillText("BMI和健康数据", 150, 40);
+        ctx.fillText(currentUser + "的BMI和健康数据", 150, 40);
         
         // 绘制最新记录日期
         ctx.font = "14px sans-serif";
@@ -456,80 +496,10 @@ Page({
         ctx.fillStyle = a;
         ctx.fillText(e.category, 140, 210);
         
-        // 绘制BMI趋势图（如果有两条或以上记录）
-        if (this.data.records.length >= 2) {
-          // 计算BMI趋势图的位置和大小
-          var chartX = 20,
-              chartY = 240,
-              chartWidth = 260,
-              chartHeight = 300;
-          
-          // 绘制图表背景
-          ctx.fillStyle = "#f8f9fa";
-          ctx.fillRect(chartX, chartY, chartWidth, chartHeight);
-          
-          // 绘制标题
-          ctx.font = "14px sans-serif";
-          ctx.fillStyle = "#333";
-          ctx.textAlign = "left";
-          ctx.fillText("BMI变化趋势", chartX + 10, chartY + 20);
-          
-          // 绘制坐标轴
-          ctx.lineWidth = 1;
-          ctx.strokeStyle = "#999";
-          ctx.beginPath();
-          ctx.moveTo(chartX + 40, chartY + chartHeight - 20);
-          ctx.lineTo(chartX + chartWidth - 20, chartY + chartHeight - 20);
-          ctx.stroke();
-          
-          // 计算BMI数据点
-          var records = this.data.records.slice().reverse();
-          var bmiData = records.map(function(r) { return parseFloat(r.bmi); });
-          var maxBmi = Math.max.apply(Math, bmiData);
-          var minBmi = Math.min.apply(Math, bmiData);
-          var range = (maxBmi - minBmi) * 1.2;
-          var scale = range > 0 ? (chartHeight - 40) / range : 0;
-          
-          // 绘制BMI趋势线
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = "#43e97b";
-          ctx.fillStyle = "#43e97b";
-          
-          var points = records.map(function(r, i) {
-            var x = chartX + 40 + (i * (chartWidth - 60)) / (records.length - 1);
-            var y = chartY + chartHeight - 20 - ((parseFloat(r.bmi) - minBmi) * scale);
-            return { x: x, y: y };
-          });
-          
-          // 绘制连接线
-          ctx.beginPath();
-          ctx.moveTo(points[0].x, points[0].y);
-          for (var i = 1; i < points.length; i++) {
-            ctx.lineTo(points[i].x, points[i].y);
-          }
-          ctx.stroke();
-          
-          // 绘制数据点
-          points.forEach(function(point) {
-            ctx.beginPath();
-            ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
-            ctx.fill();
-          });
-          
-          // 绘制日期标签
-          ctx.font = "10px sans-serif";
-          ctx.fillStyle = "#666";
-          records.forEach(function(r, i) {
-            var date = r.formattedDate.split("-");
-            var x = chartX + 40 + (i * (chartWidth - 60)) / (records.length - 1);
-            ctx.fillText(date[1] + "/" + date[2], x - 10, chartY + chartHeight);
-          });
-        }
-        
         // 绘制小程序二维码
         var qrCodeSize = 100;
         var qrCodeX = (300 - qrCodeSize) / 2;
-        var qrCodeY = 560;
+        var qrCodeY = 240;
         
         // 绘制二维码背景
         ctx.fillStyle = "#f8f9fa";
@@ -544,11 +514,11 @@ Page({
           ctx.font = "12px sans-serif";
           ctx.fillStyle = "#999999";
           ctx.textAlign = "center";
-          ctx.fillText("扫描小程序码，测算您的BMI和健康数据", 150, 680);
+          ctx.fillText("扫描小程序码，测算您的BMI和健康数据", 150, 360);
           
           ctx.font = "10px sans-serif";
           ctx.fillStyle = "rgba(150, 150, 150, 0.5)";
-          ctx.fillText("BMI标准体重计算器助手", 150, 700);
+          ctx.fillText("BMI标准体重指数趋势计算器", 150, 380);
           
           // 生成图片
           wx.canvasToTempFilePath({
@@ -556,9 +526,9 @@ Page({
             x: 0,
             y: 0,
             width: 300,
-            height: 800,
+            height: 400,
             destWidth: 300,
-            destHeight: 800,
+            destHeight: 400,
             success: function(e) {
               var t = e.tempFilePath;
               wx.hideLoading();
@@ -929,7 +899,7 @@ Page({
   onShareTimeline: function() {
     var e = this.data.isViewingOtherProfile ? this.data.viewingProfileName : "我";
     return {
-      title: "".concat(e, "的BMI和体重变化趋势 - BMI标准体重计算器"),
+      title: "".concat(e, "的BMI和体重变化趋势 - BMI标准体重指数趋势计算器"),
       imageUrl: this.data.records.length >= 2 ? this.shareImagePath : ""
     }
   }

@@ -42,7 +42,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#4776E6",
-    "navigationBarTitleText": "BMI标准体重计算器助手",
+    "navigationBarTitleText": "BMI标准体重指数趋势计算器",
     "navigationBarTextStyle": "white"
   },
   "plugins": {}
